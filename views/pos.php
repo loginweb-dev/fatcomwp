@@ -1,15 +1,10 @@
 <?php
 function lw_pos() {
     $current_user = wp_get_current_user();
-    // require_once '../library/class.Cart.php';
-	// $cart = new Cart([
-	// 	'cartMaxItem'      => 0,
-	// 	'itemMaxQuantity'  => 99,
-	// 	'useCookie'        => false,
-	// ]);
-    $post = get_post( 272 );
+    $setting = get_posts( array('post_status' => 'publish', 'post_type' => 'pos_lw_setting') );
+    $box = get_post( $setting[0]->lw_caja_default );
     ?>
-        <!-- <meta http-equiv="pragma" content="no-cache" /> -->
+        <meta http-equiv="pragma" content="no-cache" />
         <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/js/jquery-2.0.0.min.js" type="text/javascript"></script>
         <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/js/bootstrap.bundle.min.js" type="text/javascript"></script>
         <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
@@ -183,7 +178,7 @@ function lw_pos() {
                     url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_orders.php",
                     dataType: 'html',
                     contentType: 'text/html',
-                    data: {"box_id" : 272 },
+                    data: {"box_id" : "<?php echo $box->ID; ?>" },
                     success: function (response) {
                         $('#box_body').html(response);	
                         $('#modalBox').modal('show');
@@ -374,9 +369,11 @@ function lw_pos() {
 
         <div class="container-fluid mt-3">
             <div class="row">
+           
                 <div class="col-lg-8 col-md-8 col-sm-12">
                     <div class="form-group">
                         <input type="text" class="form-control mr-sm-2" placeholder="Buscar Productos" id="criterio_id">
+                        
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12">
@@ -385,8 +382,8 @@ function lw_pos() {
                         <a href="#" onclick="open_order()" class="icon icon-sm rounded-circle border"><i class="fa fa-address-book"></i></a>
                         
                         <div class="text">
-                            <span class="text-muted"><?php echo $post->post_title; ?></span>
-                            <input class="form-control" type="text" id="cod_box" value="<?php echo $post->ID; ?>" hidden>
+                            <span class="text-muted"><?php echo $box->post_title; ?></span>
+                            <input class="form-control" type="text" id="cod_box" value="<?php echo $box->ID; ?>" hidden>
                             <br><button class="btn btn-dark btn-sm" id="box_show">Cerrar</button>
                             <button class="btn btn-dark btn-sm" id="box_change">Cambiar</button>
                         </div>
@@ -403,7 +400,7 @@ function lw_pos() {
                     <div id="milistcatgs"></div>
                 </div>
                 <div class="col-md-4">
-                    <?php if(get_post_meta($post->ID, 'lw_or', true) == 'true'){ ?>
+                    <?php if(get_post_meta($box->ID, 'lw_or', true) == 'true'){ ?>
                         <div class="card mt-1">
                             <article class="filter-group">
                                 <header class="card-header">

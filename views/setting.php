@@ -13,6 +13,7 @@ function lw_setting() {
         update_post_meta( $post->ID, 'lw_nit', $_POST["lw_nit"]);
         update_post_meta( $post->ID, 'lw_legend', $_POST["lw_legend"]);
         update_post_meta( $post->ID, 'lw_cat_default', $_POST["lw_cat_default"]);
+        update_post_meta( $post->ID, 'lw_caja_default', $_POST["lw_caja_default"]);
         update_post_meta( $post->ID, 'lw_extra_id', $_POST["lw_extra_id"]);
         
          header('Location: ' . admin_url('admin.php?page=terminal-punto-venta-2'), true);
@@ -86,6 +87,10 @@ function lw_setting() {
                         <div class="form-group"> 
                             <label>Categoria Default</label>
                             <input class="form-control" type="text" name="lw_cat_default" value="<?php echo get_post_meta($setting[0]->ID, 'lw_cat_default', true); ?>"/>
+                        </div>
+                        <div class="form-group"> 
+                            <label>Caja Predeterminada</label>
+                            <input class="form-control" type="text" name="lw_caja_default" value="<?php echo get_post_meta($setting[0]->ID, 'lw_caja_default', true); ?>"/>
                         </div>
                         <div class="form-group">
                             <label>Image o Logo</label>

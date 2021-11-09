@@ -1,6 +1,6 @@
 <?php
 /**
-* Plugin Name: FATCOM-WP
+* Plugin Name: FATCOMWP
 * Plugin URI: https://loginweb.dev/fatcomwp/
 * Description: Terminal Punto de Venta - Plugins Diseñado y Desarrollado por Loginweb, para Gestionar la Facturacion Computarizada, Flujo de Caja, Compras.
 * Version: 3.0
@@ -27,12 +27,26 @@ function lw_create_setting() {
 			'lw_nit' => '5619016018',
 			'lw_legend' => 'EL ESTADO ES NUESTRO ENEMIGO',
 			'lw_cat_default' => 'Menu',
+			'lw_caja_default' => '272',
 			'lw_extra_id' => null,
 		)
 	);
 	wp_insert_post( $setting );
 }
 register_activation_hook(__FILE__, 'lw_create_setting');
+
+
+// link para setting
+add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'lw_settings_link' );
+function lw_settings_link( $links ) {
+	$url = admin_url('admin.php?page=setting');
+	$settings_link = "<a href='$url'>" . __( 'Settings' ) . '</a>';
+	array_push(
+		$links,
+		$settings_link
+	);
+	return $links;
+}
 
 // menu TPV items --------------------------------------------------------------------
 add_action('admin_menu','lw_add_menu_2');
