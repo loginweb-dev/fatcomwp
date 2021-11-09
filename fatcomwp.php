@@ -36,7 +36,7 @@ function lw_create_setting() {
 register_activation_hook(__FILE__, 'lw_create_setting');
 
 
-// link para setting
+// link para setting --------------------------------------------
 add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'lw_settings_link' );
 function lw_settings_link( $links ) {
 	$url = admin_url('admin.php?page=setting');
@@ -49,19 +49,19 @@ function lw_settings_link( $links ) {
 }
 
 // menu TPV items --------------------------------------------------------------------
-add_action('admin_menu','lw_add_menu_2');
-function lw_add_menu_2() {
+add_action('admin_menu','fw_add_menu');
+function fw_add_menu() {
 	
 	//MENU TPV
-	add_menu_page('Punto de Venta 2', //page title
-        'Punto de Venta 2', //menu title
+	add_menu_page('Punto de Venta', //page title
+        'Punto de Venta', //menu title
         'manage_options', //capabilitiesw
-        'terminal-punto-venta-2', //menu slug
+        'terminal-punto-venta', //menu slug
         'lw_pos', //function
         'dashicons-align-full-width'
 	);
 
-        add_submenu_page('terminal-punto-venta-2', //parent slug
+        add_submenu_page('terminal-punto-venta', //parent slug
 			'Configuracion', //page title
 			'Configuracion', //menu title
 			'manage_options', //capability
@@ -69,7 +69,7 @@ function lw_add_menu_2() {
 			'lw_setting'); //function
 
 
-		add_submenu_page('terminal-punto-venta-2', //parent slug
+		add_submenu_page('terminal-punto-venta', //parent slug
 			'Dosificaciones', //page title
 			'Dosificaciones', //menu title
 			'manage_options', //capability

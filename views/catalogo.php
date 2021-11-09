@@ -19,7 +19,6 @@
                 'status' => 'publish'
             );
             $products = wc_get_products($args);
-            // print_r($_GET["json"]);
         ?>
         
             <?php if ($category->name == get_post_meta($setting[0]->ID, 'lw_cat_default', true) ) {?>

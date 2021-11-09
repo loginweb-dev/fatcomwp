@@ -1,6 +1,6 @@
 <?php 
-    include('qrcode/qrlib.php');
-    include('qrcode/config.php');
+    include('../qrcode/qrlib.php');
+    include('../qrcode/qrconfig.php');
 
     $QR_BASEDIR = dirname(__FILE__).DIRECTORY_SEPARATOR;
   

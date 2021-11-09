@@ -1,13 +1,7 @@
 <?php 
 require_once('../../../../wp-load.php');
     ?>
-        <div class="modal-header text-center">
-            <h5 class="modal-title text-center" id="exampleModalLabel">Detalle de la Venta <p><?php echo $_GET["type_payment"]; ?></p></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-      </div>
-      <div class="modal-body">
+
 		<div class="form-group text-center">
 			<p><u>Tipo de Venta</u></p>
 			<label class="custom-control custom-radio custom-control-inline">
@@ -44,19 +38,11 @@ require_once('../../../../wp-load.php');
 					<span class="custom-control-label"> Imprimir </span>
 				</label>
 			</div>
-		</div>
-	
-		<div class="modal-footer">
-			<button href="#" id="new_shop_order" onclick="new_shop_order('<?php echo $_GET['type_payment']; ?>')" type="button" class="btn btn-primary" disabled> Finalizar </button>
-		</div>
-	  	<?php }else if($_GET['type_payment'] == 'Tigo Money'){ ?>
-			<div class="col form-group text-center">
-				<img class="img-thumbnail img-md text-center" src="resources/tigo_money.png" alt="">
-			</div> 
-		</div>
-		<div class="modal-footer">
-			<button href="#" id="new_shop_order" onclick="new_shop_order('<?php echo $_GET['type_payment']; ?>')" type="button" class="btn btn-primary" > Guardar </button>
-		</div>
+			<div class="form-group text-center">
+				<button href="#" id="new_shop_order" onclick="new_shop_order('<?php echo $_GET['type_payment']; ?>')" type="button" class="btn btn-primary btn-sm" disabled> Finalizar </button>
+				<button href="#" id="" onclick="clear_search_products()" type="button" class="btn btn-dark btn-sm"> Cancelar </button>
+
+			</div>
 		<?php }else if($_GET['type_payment'] == 'QR Simple'){ ?>
 			<div class="col form-group text-center">
 			<img class="img-thumbnail img-md text-center" src="resources/qr_simple.jpg" alt="">

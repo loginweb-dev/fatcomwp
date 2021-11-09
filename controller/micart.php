@@ -28,7 +28,7 @@
                 "sku" => $item->sku, 
                 "image" => get_the_post_thumbnail_url($item->id)
             ]);         
-            echo json_encode(array("message" => "Producto Agredado Correctamente. (sin stock manager)"));   
+            echo json_encode(array("message" => "Producto Agredado. (sin stock manager)"));   
         } else {
             if ($_GET["stock"] > $item->get_stock_quantity()) {
                 # code...

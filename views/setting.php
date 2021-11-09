@@ -16,7 +16,7 @@ function lw_setting() {
         update_post_meta( $post->ID, 'lw_caja_default', $_POST["lw_caja_default"]);
         update_post_meta( $post->ID, 'lw_extra_id', $_POST["lw_extra_id"]);
         
-         header('Location: ' . admin_url('admin.php?page=terminal-punto-venta-2'), true);
+         header('Location: ' . admin_url('admin.php?page=terminal-punto-venta'), true);
          die();
     } 
     $setting = get_posts( array('post_status' => 'publish', 'post_type' => 'pos_lw_setting') );

@@ -2,7 +2,7 @@
     require_once('../../../../wp-load.php');
     $current_user = wp_get_current_user();
     require_once('../library/code-control/CodigoControlV7.php');
-    require_once 'class.Cart.php';
+    require_once '../library/class.Cart.php';
     $cart = new Cart([
         'cartMaxItem'      => 0,
         'itemMaxQuantity'  => 99,

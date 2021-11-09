@@ -107,14 +107,15 @@ function lw_pos() {
                         success: function (response) {
                             $.notify(response.message, "success");	
                             get_totals();
-                            open_cart();
-                            clear_search_products();
+                            // open_cart();
+                            // clear_search_products();
+                            // $(window).scrollTop(0);
                         }
                     });
                 }
             }
             function update_sum(product_id){
-            $('#box_body').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
+                $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
                 $.ajax({
                     url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
                     dataType: "json",
@@ -125,7 +126,7 @@ function lw_pos() {
                             dataType: 'html',
                             contentType: 'text/html',
                             success: function (response1) {
-                                $('#box_body').html(response1);	
+                                $('#mitabla').html(response1);	
                                 get_totals();
                                 $.notify("Item Actualizado..", "success");
                             }
@@ -134,7 +135,7 @@ function lw_pos() {
                 });
             }
             function update_rest(product_id){
-                $('#box_body').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
+                $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
                 $.ajax({
                     url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
                     dataType: "json",
@@ -145,7 +146,7 @@ function lw_pos() {
                             dataType: 'html',
                             contentType: 'text/html',
                             success: function (response1) {
-                                $('#box_body').html(response1);	
+                                $('#mitabla').html(response1);	
                                 get_totals();
                                 $.notify("Item Actualizado..", "success");
                             }
@@ -154,7 +155,7 @@ function lw_pos() {
                 });
             }
             function remove(product_id){
-                $('#box_body').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
+                $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
                 $.ajax({
                     url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
                     dataType: "json",
@@ -165,7 +166,7 @@ function lw_pos() {
                             dataType: 'html',
                             contentType: 'text/html',
                             success: function (response1) {
-                                $('#box_body').html(response1);	
+                                $('#mitabla').html(response1);	
                                 get_totals();
                                 $.notify("Item Eliminado..", "success");
                             }
@@ -174,6 +175,7 @@ function lw_pos() {
                 });
             }
             function open_order(){
+                $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
                 $.ajax({
                     url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_orders.php",
                     dataType: 'html',
@@ -187,13 +189,13 @@ function lw_pos() {
             }
             // modal cart  ----------------------------------------------------------------------------
             function open_cart(){
+                $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
                 $.ajax({
                     url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_cart.php",
                     dataType: 'html',
                     contentType: 'text/html',
                     success: function (response) {
-                        $('#box_body').html(response);	
-                        $('#modalBox').modal('show');
+                        $('#mitabla').html(response);	
                     }
                 });
             }
@@ -205,13 +207,14 @@ function lw_pos() {
                     dataType: "json",
                     data: {"clear": true },
                     success: function (response) {
-                        $('#modalBox').modal('toggle');
                         $.notify(response.message, "success");
                         get_totals();
+                        $('#mitabla').html("");
                     }
                 });
             }
             function pasarela(type_payment) {
+                $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
                 let total = 0;
                 $.ajax({
                     url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
@@ -219,25 +222,22 @@ function lw_pos() {
                     data: { "get_totals": true },
                     success: function (response) {
                         total = response.total_numeral;	
-            
-                            $.ajax({
-                                url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_pasarela.php",
-                                dataType: 'html',
-                                contentType: 'text/html',
-                                data: {"total" : total, "type_payment" : type_payment},
-                                success: function (response) {
-                                    $('#box_body').html(response);	
-                                    $('#modalBox').modal('show');
-                                }
-                            });
-                
+                        $.ajax({
+                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_pasarela.php",
+                            dataType: 'html',
+                            contentType: 'text/html',
+                            data: {"total" : total, "type_payment" : type_payment},
+                            success: function (response) {
+                                $('#mitabla').html(response);	
+                                $(window).scrollTop(0);
+                            }
+                        });
                     }
                 });	
             }
             // Create new Shop Order----------------------------------------------
             function new_shop_order(type_payment){
-                $('#modalBox').modal('toggle');
-                $.notify("Pedido en Proceso", "info");
+                $.notify("Pedido en Proceso", "success");
                 let id_customer = $("#id_customer").val();
                 let cod_box = $("#cod_box").val();
                 let entregado = $("#entregado").val();
@@ -278,13 +278,14 @@ function lw_pos() {
                             data: {"cod_customer": id_customer, "cod_box": cod_box, "entregado": entregado, "cambio": cambio, "tipo_venta": tipo_venta, "option_restaurant": option_restaurant, "type_payment": type_payment, "note_customer": note_customer },
                             success: function (response) {
                                 $.ajax({
-                                    url: "miphp/barcode.php",
+                                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/barcode.php",
                                     data: {"cod_order": response.cod_order, "text_qr": response.text_qr },
                                     success: function () {
-                                        build_cart();
-                                        build_costumer();
-                                        build_extras();
-                                        $.notify("Venta Tipo Recibo Sin Imprimir, Realizada Correctamente..", "info");
+                                        // build_cart();
+                                        // build_costumer();
+                                        // build_extras();
+                                        clear_search_products();
+                                        $.notify("Venta Recibo Sin Imprimir", "success");
                                     }
                                 });
                             }
@@ -362,8 +363,6 @@ function lw_pos() {
             }
             function clear_search_products(){
                 $('#mitabla').html("");
-                $("#criterio_id").focus();
-
             }
         </script>
 
@@ -478,22 +477,25 @@ function lw_pos() {
                             </header> 
                             <div class="filter-content collapse show" id="collapse35">
                                 <div class="card-body">
-                                <dl class="dlist-align">
-                                <dt>Total:</dt>
-                                <dd class="text-right  h6"><div id="total_numeral"></div></dd>
-                                </dl>
-                                <div id="total_literal"></div>
-                                <hr>
-                                <dl class="dlist-align">
-                                    <dt>Cantidad:</dt> 
-                                    <dd class="text-right  h6"><div id="cant_items"></div></dd>
-                                </dl>
-                                <hr>
-                                
-                                <dl class="">
-                                    <small>Notas:</small> 
-                                    <dd class="h6"><textarea id="note_customer" class="form-control" name="" rows="3"></textarea></dd>
-                                </dl>
+                                    <dl class="dlist-align">
+                                    <dt>Total:</dt>
+                                    <dd class="text-right  h6"><div id="total_numeral"></div></dd>
+                                    </dl>
+                                    <div id="total_literal"></div>
+                                    <hr>
+                                    <dl class="dlist-align">
+                                        <dt>Cantidad:</dt> 
+                                        <dd class="text-right  h6"><div id="cant_items"></div></dd>
+                                    </dl>
+                                    <hr>
+                                    
+                                    <dl class="">
+                                        <small>Notas:</small> 
+                                        <dd class="h6"><textarea id="note_customer" class="form-control" name="" rows="3"></textarea></dd>
+                                    </dl>
+                                </div>
+                                <div class="form-group text-center">
+                                    <button class="btn btn-dark btn-sm" id="btn_payment_quick" onclick="pasarela('Efectivo')">  Pago Rapido</button>
                                 </div>
                             </div>
                         </article>

@@ -1,6 +1,5 @@
 <?php 
     require_once('../../../../wp-load.php');
-    // $rows = $_GET["json"];
     require_once '../library/class.Cart.php';
     $cart = new Cart([
         'cartMaxItem'      => 0,
@@ -69,7 +68,8 @@
                     </tbody>
                 </table>
                 <div class="card-body border-top">
-                    <a href="#" class="btn btn-dark" onclick='cart_clear()'>  Limpiar </a>   
+                    <a href="#" class="btn btn-dark btn-sm" onclick='cart_clear()'>  Limpiar </a>   
+                    <a href="#" class="btn btn-dark btn-sm" onclick='clear_search_products()'>  Cerrar </a>   
                 </div>	
             </div> 
         </div>
