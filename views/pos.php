@@ -10,23 +10,23 @@ function lw_pos() {
     $post = get_post( 272 );
     ?>
         <!-- <meta http-equiv="pragma" content="no-cache" /> -->
-        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/js/jquery-2.0.0.min.js" type="text/javascript"></script>
-        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
-        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/css/ui.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/css/responsive.css" rel="stylesheet" media="only screen and (max-width: 1200px)" />
-        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/js/script.js" type="text/javascript"></script>
+        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/js/jquery-2.0.0.min.js" type="text/javascript"></script>
+        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
+        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/css/ui.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/css/responsive.css" rel="stylesheet" media="only screen and (max-width: 1200px)" />
+        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/js/script.js" type="text/javascript"></script>
 
-        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/library/notify.js" type="text/javascript"></script>
+        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/library/notify.js" type="text/javascript"></script>
         
         <script type="text/javascript">
             $(document).ready(function() {
                 $.notify.defaults({globalPosition: 'bottom right'})
                 // jQuery code--------------------------
-                $('#milistcatgs').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/reload.gif'></center>");	
+                $('#milistcatgs').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
                 $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/views/catalogo.php",
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/catalogo.php",
                     dataType: 'html',
                     contentType: 'text/html',
                     success: function (response) {
@@ -38,7 +38,7 @@ function lw_pos() {
             }); 
             // --------------------------  add custumer ----------------------------------------------------------
             function customer_add (customer_id){
-                $('#list_search_customers').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/reload.gif'></center>");	
+                $('#list_search_customers').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
                     $.ajax({
                         url: "controller/search.php",
                         dataType: "json",
@@ -57,9 +57,9 @@ function lw_pos() {
             }
             // ----------------  SET CUSTUMER ------------------------------------------------------
             function build_costumer(){
-                $('#list_search_customers').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/reload.gif'></center>");	
+                $('#list_search_customers').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
                 $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/controller/search.php",
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/search.php",
                     dataType: "json",
                     data: {"get_customers": "cliente.generico@gmail.com" },
                     success: function (response) {
@@ -77,7 +77,7 @@ function lw_pos() {
             // -------------- GET TOTALS -------------------------------------------------------------
             function get_totals(){
                 $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/controller/micart.php",
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
                     dataType: "json",
                     data: {"get_totals": true },
                     success: function (response) {
@@ -106,26 +106,27 @@ function lw_pos() {
                 var stock = prompt("Cantidad a Ingresar", 1);
                 if (stock) {
                     $.ajax({
-                        url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/controller/micart.php",
+                        url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
                         dataType: "json",
                         data: {"add": product_id, "stock": stock },
                         success: function (response) {
                             $.notify(response.message, "success");	
                             get_totals();
                             open_cart();
+                            clear_search_products();
                         }
                     });
                 }
             }
             function update_sum(product_id){
-            $('#box_body').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/reload.gif'></center>");	
+            $('#box_body').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
                 $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/controller/micart.php",
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
                     dataType: "json",
                     data: {"update_sum": product_id},
                     success: function (response) {
                         $.ajax({
-                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/views/modal_cart.php",
+                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_cart.php",
                             dataType: 'html',
                             contentType: 'text/html',
                             success: function (response1) {
@@ -138,14 +139,14 @@ function lw_pos() {
                 });
             }
             function update_rest(product_id){
-                $('#box_body').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/reload.gif'></center>");
+                $('#box_body').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
                 $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/controller/micart.php",
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
                     dataType: "json",
                     data: {"update_rest": product_id},
                     success: function (response) {
                         $.ajax({
-                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/views/modal_cart.php",
+                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_cart.php",
                             dataType: 'html',
                             contentType: 'text/html',
                             success: function (response1) {
@@ -158,14 +159,14 @@ function lw_pos() {
                 });
             }
             function remove(product_id){
-                $('#box_body').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/reload.gif'></center>");
+                $('#box_body').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
                 $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/controller/micart.php",
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
                     dataType: "json",
                     data: {"remove": product_id },
                     success: function (response) {
                         $.ajax({
-                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/views/modal_cart.php",
+                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_cart.php",
                             dataType: 'html',
                             contentType: 'text/html',
                             success: function (response1) {
@@ -179,7 +180,7 @@ function lw_pos() {
             }
             function open_order(){
                 $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/views/modal_orders.php",
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_orders.php",
                     dataType: 'html',
                     contentType: 'text/html',
                     data: {"box_id" : 272 },
@@ -192,7 +193,7 @@ function lw_pos() {
             // modal cart  ----------------------------------------------------------------------------
             function open_cart(){
                 $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/views/modal_cart.php",
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_cart.php",
                     dataType: 'html',
                     contentType: 'text/html',
                     success: function (response) {
@@ -205,7 +206,7 @@ function lw_pos() {
             function cart_clear(){
                 
                 $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/controller/micart.php",
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
                     dataType: "json",
                     data: {"clear": true },
                     success: function (response) {
@@ -218,14 +219,14 @@ function lw_pos() {
             function pasarela(type_payment) {
                 let total = 0;
                 $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/controller/micart.php",
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
                     dataType: "json",
                     data: { "get_totals": true },
                     success: function (response) {
                         total = response.total_numeral;	
             
                             $.ajax({
-                                url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/views/modal_pasarela.php",
+                                url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_pasarela.php",
                                 dataType: 'html',
                                 contentType: 'text/html',
                                 data: {"total" : total, "type_payment" : type_payment},
@@ -277,7 +278,7 @@ function lw_pos() {
                         });
                     } else {
                         $.ajax({
-                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/controller/orders.php",
+                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/orders.php",
                             dataType: "json",
                             data: {"cod_customer": id_customer, "cod_box": cod_box, "entregado": entregado, "cambio": cambio, "tipo_venta": tipo_venta, "option_restaurant": option_restaurant, "type_payment": type_payment, "note_customer": note_customer },
                             success: function (response) {
@@ -353,7 +354,7 @@ function lw_pos() {
                 $('#new_shop_order').html("trabajando...");
                 $('#new_shop_order').prop("disabled", true);
                 $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/controller/micart.php",
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
                     dataType: "json",
                     data: { "get_totals": true },
                     success: function (response) {
@@ -611,10 +612,10 @@ function lw_pos() {
                     // alert("Hola mundo");
                     // if ($("#qr_barra").is(":checked")) {
                     //     // console.log(" SI Barra");
-                    //     $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/reload.gif'></center>");
+                    //     $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
 
                     //     $.ajax({
-                    //         url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/controller/search.php",
+                    //         url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/search.php",
                     //         dataType: "json",
                     //         data: { "get_sku": $("#criterio_id").val() },
                     //         success: function (response) {
@@ -639,10 +640,10 @@ function lw_pos() {
 
                     // }else{
                         // console.log(" No Barra");
-                        $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/reload.gif'></center>");
+                        $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
                     
                         $.ajax({
-                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/controller/search.php",
+                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/search.php",
                             dataType: "json",
                             data: { "get_products": $("#criterio_id").val() },
                             success: function (response) {
@@ -677,7 +678,7 @@ function lw_pos() {
                                                 roleList3 += userObj.name+', ';
                                             });
                                         }
-                                        let img = response[i].image ? response[i].image : '<?php echo WP_PLUGIN_URL; ?>/fatcomwp-main/resources/default_product.png';
+                                        let img = response[i].image ? response[i].image : '<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/default_product.png';
                                         table += "<tr><td><figure class='itemside'><div class='aside'><img src="+img+
                                             " class='img-sm'></div><figcaption class='info'><h6>"+response[i].name+
                                             "</h6><button onclick='product_add("+response[i].id+")' type='button' class='btn btn-sm btn-primary'><i class='fa fa-shopping-cart'></i></button><p class='text-muted small'>  Precio Venta: "+response[i].regular_price+

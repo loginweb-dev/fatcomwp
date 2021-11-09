@@ -36,8 +36,8 @@ Para la instalación se deben seguir algunos pasos que se describen a continuaci
 
 - *Clonar el proyecto desde le repositorio*
     ```bash
-    git clone https://github.com/loginweb-dev/iby-master.git
+    git clone https://github.com/loginweb-dev/fatcomwp.git
 
 - *Permisos de la app*
     ```bash
-    chown -R www-data:www-data iby-master/
+    chown -R www-data:www-data fatcomwp/
