@@ -1,9 +1,13 @@
 <?php 
-    include('../qrcode/qrlib.php');
-    include('../qrcode/qrconfig.php');
+    // require_once('../../../../wp-load.php');
+    
 
-    $QR_BASEDIR = dirname(__FILE__).DIRECTORY_SEPARATOR;
+    include('qrcode/qrlib.php');
+    // include('qrcode/qrconfig.php');
   
+    
+    $QR_BASEDIR = dirname(__FILE__).DIRECTORY_SEPARATOR;
+
     $cod_order = $_GET["cod_order"];
     $text_qr = $_GET["text_qr"];
 
@@ -14,9 +18,10 @@
     $pixelPerPoint = 5;
     $jpegQuality = 95;
     
-    // generating frame-----------------------------------------------
+    // echo 'prueba3';
+    // // generating frame-----------------------------------------------
     $frame = QRcode::text($codeContents, false, QR_ECLEVEL_M);
-    
+    // echo "hola mundo4";
     // rendering frame with GD2 (that should be function by real impl.!!!)
     $h = count($frame);
     $w = strlen($frame[0]);

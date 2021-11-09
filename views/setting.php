@@ -22,13 +22,13 @@ function lw_setting() {
     $setting = get_posts( array('post_status' => 'publish', 'post_type' => 'pos_lw_setting') );
     ?>
         <!-- <meta http-equiv="pragma" content="no-cache" /> -->
-        <script src="<?php echo WP_PLUGIN_URL; ?>/iby2/resources/js/jquery-2.0.0.min.js" type="text/javascript"></script>
-        <script src="<?php echo WP_PLUGIN_URL; ?>/iby2/resources/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-        <link href="<?php echo WP_PLUGIN_URL; ?>/iby2/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo WP_PLUGIN_URL; ?>/iby2/resources/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
-        <link href="<?php echo WP_PLUGIN_URL; ?>/iby2/resources/css/ui.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo WP_PLUGIN_URL; ?>/iby2/resources/css/responsive.css" rel="stylesheet" media="only screen and (max-width: 1200px)" />
-        <script src="<?php echo WP_PLUGIN_URL; ?>/iby2/resources/js/script.js" type="text/javascript"></script>
+        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/js/jquery-2.0.0.min.js" type="text/javascript"></script>
+        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
+        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/css/ui.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/css/responsive.css" rel="stylesheet" media="only screen and (max-width: 1200px)" />
+        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/js/script.js" type="text/javascript"></script>
 
         <script type="text/javascript">
             $(document).ready(function() {

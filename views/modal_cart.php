@@ -11,8 +11,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <table class="table table-borderless table-shopping-cart">
-                    <thead class="text-muted">
+                <div class="form-group text-center">
+                    <h5 >DETELLA DE CARRITO</h5>  
+                </div>
+                <table class="table table-striped">
+                    <thead class="thead-dark">
                         <tr class="small text-uppercase">
                         <th scope="col" width="350">Producto</th>
                         <th scope="col" width="120">Cant</th>
@@ -67,7 +70,7 @@
                         <?php } } } ?>
                     </tbody>
                 </table>
-                <div class="card-body border-top">
+                <div class="border-top">
                     <a href="#" class="btn btn-dark btn-sm" onclick='cart_clear()'>  Limpiar </a>   
                     <a href="#" class="btn btn-dark btn-sm" onclick='clear_search_products()'>  Cerrar </a>   
                 </div>	

@@ -182,8 +182,8 @@ function lw_pos() {
                     contentType: 'text/html',
                     data: {"box_id" : "<?php echo $box->ID; ?>" },
                     success: function (response) {
-                        $('#box_body').html(response);	
-                        $('#modalBox').modal('show');
+                        $('#mitabla').html(response);	
+                        // $('#modalBox').modal('show');
                     }
                 });
             }
@@ -249,29 +249,29 @@ function lw_pos() {
                 if (tipo_venta == "recibo" ) {
                     if (opciones_print) {
                         $.ajax({
-                            url: "miphp/orders.php",
+                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/orders.php",
                             dataType: "json",
                             data: {"cod_customer": id_customer, "cod_box": cod_box, "entregado": entregado, "cambio": cambio, "tipo_venta": tipo_venta, "option_restaurant": option_restaurant, "type_payment": type_payment, "note_customer": note_customer },
                             success: function (response) {
                                 $.ajax({
-                                    url: "miphp/barcode.php",
+                                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/barcode.php",
                                     data: {"cod_order": response.cod_order, "text_qr": response.text_qr },
                                     success: function () {
-                                        build_cart();
-                                        build_costumer();
-                                        build_extras();
-                                        setTimeout(function(){ $.notify("Abriendo PDF", "info"); $('html, body').scrollTop(0); }, 3000);
-                                        if(isMobile.mobilecheck()){
-                                            window.location.href = '<?php echo WP_PLUGIN_URL; ?>'+'/iby-master/miphp/print_recibo.php?cod_order='+response.cod_order;
-                                        }else{
-                                            window.open('<?php echo WP_PLUGIN_URL; ?>'+'/iby-master/miphp/print_recibo.php?cod_order='+response.cod_order, '_blank', 'location=yes,height=600,width=400,scrollbars=yes,status=yes');
-                                        }
+                                        get_totals();
+                                        clear_search_products();
+                                        setTimeout(function(){ $.notify("Abriendo PDF", "info"); $('html, body').scrollTop(0); }, 1000);
+                                        // if(isMobile.mobilecheck()){
+                                        //     window.location.href = '<?php echo WP_PLUGIN_URL; ?>'+'/fatcomwp/views/print_recibo.php?cod_order='+response.cod_order;
+                                        // }else{
+                                            window.open('<?php echo WP_PLUGIN_URL; ?>'+'/fatcomwp/views/print_recibo.php?cod_order='+response.cod_order, '_blank', 'location=yes,height=600,width=400,scrollbars=yes,status=yes');
+                                        // }
                                     }
                                 });
                             
                             }
                         });
                     } else {
+                        $.notify("Pedido Rapido", "success");
                         $.ajax({
                             url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/orders.php",
                             dataType: "json",
@@ -281,9 +281,7 @@ function lw_pos() {
                                     url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/barcode.php",
                                     data: {"cod_order": response.cod_order, "text_qr": response.text_qr },
                                     success: function () {
-                                        // build_cart();
-                                        // build_costumer();
-                                        // build_extras();
+                                        get_totals();
                                         clear_search_products();
                                         $.notify("Venta Recibo Sin Imprimir", "success");
                                     }
