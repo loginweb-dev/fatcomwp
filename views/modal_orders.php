@@ -58,8 +58,9 @@
           </table>
           <div class="border-top form-group text-center">
             <h5 >TOTAL BS <?php echo $tv; ?></h5>
-          <a href="#" class="btn btn-dark btn-sm" onclick='clear_search_products()'>  Cerrar </a>   
-        </div>
+            <!-- <a href="#" class="btn btn-dark btn-sm" onclick='clear_search_products()'>  Cerrar Caja</a>  -->
+            <a href="#" class="btn btn-dark btn-sm" onclick='clear_search_products()'>  Cancelar </a>   
+          </div>
         </div>
  
       </div>

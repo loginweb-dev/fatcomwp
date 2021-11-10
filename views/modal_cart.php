@@ -43,7 +43,7 @@
                                 <tr>
                                     <td>
                                         <figure class="itemside">
-                                            <div class="aside"><img src="<?php echo $item['attributes']['image'] ? $item['attributes']['image'] : WP_PLUGIN_URL.'/iby2/resources/default_product.png';?>" class="img-sm"></div>
+                                            <div class="aside"><img src="<?php echo $item['attributes']['image'] ? $item['attributes']['image'] : WP_PLUGIN_URL.'/fatcomwp/resources/default_product.png';?>" class="img-sm"></div>
                                             <figcaption class="info">
                                                 <a href="#" class="title text-dark"><?php echo $item['attributes']['name'] ?></a>
                                                 <p class="text-muted small">ID: <?php echo $item['attributes']['product_id'] ?> <br> SKU: <?php echo $item['attributes']['sku'] ?></p>
@@ -70,7 +70,7 @@
                         <?php } } } ?>
                     </tbody>
                 </table>
-                <div class="border-top">
+                <div class="border-top form-group text-center">
                     <a href="#" class="btn btn-dark btn-sm" onclick='cart_clear()'>  Limpiar </a>   
                     <a href="#" class="btn btn-dark btn-sm" onclick='clear_search_products()'>  Cerrar </a>   
                 </div>	

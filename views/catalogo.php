@@ -50,7 +50,7 @@
                                         <?php }else{ ?>
                                             <div class="col-lg-4 col-sm-12 col-md-6">
                                                     <figure class="itemside">
-                                                        <div class="aside"><img src="<?php echo get_the_post_thumbnail_url($key->id) ? get_the_post_thumbnail_url($key->id) : WP_PLUGIN_URL.'/iby2/resources/default_product.png'; ?>" class="border img-sm"></div>
+                                                        <div class="aside"><img src="<?php echo get_the_post_thumbnail_url($key->id) ? get_the_post_thumbnail_url($key->id) : WP_PLUGIN_URL.'/fatcomwp/resources/default_product.png'; ?>" class="border img-sm"></div>
                                                         <figcaption class="info align-self-center">
                                                             <p><small><?php echo $key->name ?></small></p>
                                                             <p><?php echo $key->regular_price ?> Bs.</p>
@@ -80,7 +80,7 @@
                                             <?php foreach ($key->get_available_variations() as $variation) { $var = wc_get_product($variation['variation_id']); ?>
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <figure class="itemside">
-                                                            <div class="aside"><img src="<?php echo get_the_post_thumbnail_url($key->id) ? get_the_post_thumbnail_url($key->id) : WP_PLUGIN_URL.'/iby2/resources/default_product.png'; ?>" class="border img-sm"></div>
+                                                            <div class="aside"><img src="<?php echo get_the_post_thumbnail_url($key->id) ? get_the_post_thumbnail_url($key->id) : WP_PLUGIN_URL.'/fatcomwp/resources/default_product.png'; ?>" class="border img-sm"></div>
                                                             <figcaption class="info align-self-center">
                                                                 <p><small><?php echo $var->name ?></small></p>
                                                                 <p><?php echo $var->regular_price ?> Bs.</p>
@@ -92,7 +92,7 @@
                                         <?php }else{ ?>
                                             <div class="col-lg-4 col-sm-12 col-md-6">
                                                 <figure class="itemside">
-                                                    <div class="aside"><img src="<?php echo get_the_post_thumbnail_url($key->id) ? get_the_post_thumbnail_url($key->id) : WP_PLUGIN_URL.'/iby2/resources/default_product.png'; ?>" class="border img-sm"></div>
+                                                    <div class="aside"><img src="<?php echo get_the_post_thumbnail_url($key->id) ? get_the_post_thumbnail_url($key->id) : WP_PLUGIN_URL.'/fatcomwp/resources/default_product.png'; ?>" class="border img-sm"></div>
                                                     <figcaption class="info align-self-center">
                                                         <p><small><?php echo $key->name ?></small></p>
                                                         <p><?php echo $key->regular_price ?> Bs.</p>

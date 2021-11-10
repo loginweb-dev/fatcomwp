@@ -362,6 +362,23 @@ function lw_pos() {
             function clear_search_products(){
                 $('#mitabla').html("");
             }
+
+            //Cerrando Caja------------------------------------------------
+            function box_close(){
+                let nota_cierre = $("#nota_cierre").val();
+                let lw_monto_final = $("#lw_monto_final").val();
+                let box_id = "<?php echo $post->ID;  ?>";
+                $.ajax({
+                    url: "miphp/boxs.php",
+                    dataType: "json",
+                    data: {"box_id": box_id, "nota_cierre": nota_cierre, "lw_monto_final": lw_monto_final },
+                    success: function (response) {
+                        $('#modalBox').modal('toggle');
+                        window.location.href = "<?php echo admin_url('admin.php?page=cajas'); ?>";
+                    }
+                });
+                
+            }
         </script>
 
         <div class="container-fluid mt-3">
@@ -383,6 +400,8 @@ function lw_pos() {
                             <input class="form-control" type="text" id="cod_box" value="<?php echo $box->ID; ?>" hidden>
                             <br><button class="btn btn-dark btn-sm" id="box_show">Cerrar</button>
                             <button class="btn btn-dark btn-sm" id="box_change">Cambiar</button>
+                            <button class="btn btn-primary btn-sm" id="btn_payment_quick" onclick="pasarela('Efectivo')">  Pago Rapido</button>
+
                         </div>
                     </div>
                 </div>
@@ -492,9 +511,9 @@ function lw_pos() {
                                         <dd class="h6"><textarea id="note_customer" class="form-control" name="" rows="3"></textarea></dd>
                                     </dl>
                                 </div>
-                                <div class="form-group text-center">
+                                <!-- <div class="form-group text-center">
                                     <button class="btn btn-dark btn-sm" id="btn_payment_quick" onclick="pasarela('Efectivo')">  Pago Rapido</button>
-                                </div>
+                                </div> -->
                             </div>
                         </article>
 
@@ -693,6 +712,23 @@ function lw_pos() {
                         
                     // }
                 }
+            });
+
+            // show box -------------------------------------------------------
+            $("#box_show").click(function (e) { 
+                e.preventDefault();		
+
+                $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
+                let box_id = "<?php echo $box->ID;  ?>";
+                $.ajax({
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_box.php",
+                    dataType: 'html',
+                    contentType: 'text/html',
+                    data: {"box_id": box_id },
+                    success: function (response) {
+                        $('#mitabla').html(response);	
+                    }
+                });
             });
     </script>
     <?php
