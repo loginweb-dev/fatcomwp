@@ -3,6 +3,7 @@ function lw_pos() {
     $current_user = wp_get_current_user();
     $setting = get_posts( array('post_status' => 'publish', 'post_type' => 'pos_lw_setting') );
     $box = get_post( $setting[0]->lw_caja_default );
+    $outlet = get_post(get_post_meta($box->ID, 'outlet', true));
     ?>
         <meta http-equiv="pragma" content="no-cache" />
         <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/js/jquery-2.0.0.min.js" type="text/javascript"></script>
@@ -429,6 +430,7 @@ function lw_pos() {
                         
                         <div class="text">
                             <span class="text-muted"><?php echo $box->ID.' - '.$box->post_title; ?></span>
+                            <br><span class="text-muted"><?php echo $outlet->ID.' - '.$outlet->post_title; ?></span>
                             <input class="form-control" type="text" id="cod_box" value="<?php echo $box->ID; ?>" hidden>
                             
                             <br><button class="btn btn-dark btn-sm" id="box_change">Cambiar</button>
