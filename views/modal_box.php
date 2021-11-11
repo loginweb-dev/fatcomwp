@@ -5,7 +5,7 @@ require_once('../../../../wp-load.php');
     // $orders = wc_get_orders(array('limit' => 100, 'meta_query' => array('wc_pos_register_id' => $_GET["cod_box"])));
     $orders = wc_get_orders(array('limit' => 100, 'orderby' => 'date'));
     foreach ($orders as $key) {
-        if (get_post_meta( $key->ID, 'lw_accounting', true )  == 'no') {
+        if (get_post_meta( $key->ID, 'lw_accounting', true )  == 'no' && get_post_meta( $key->ID, 'wc_pos_register_id', true )  == $_GET["box_id"]) {
             $tv = $tv + get_post_meta( $key->ID, '_order_total', true );
         } 
     }   
@@ -13,7 +13,7 @@ require_once('../../../../wp-load.php');
 
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-4 col-lg-4 col-sm-12">
+            <div class="col-md-6 col-lg-6 col-sm-12">
                 <div class="form-group text-center">
                     <h5><u>Tipo de Venta</u></h5>
                 </div>

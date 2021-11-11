@@ -49,7 +49,7 @@ function lw_setting() {
                 </div>
             </div>
             <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
-            <div class="row">
+                <div class="row">
                     <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label>ID</label>
@@ -88,11 +88,7 @@ function lw_setting() {
                                 <textarea class="form-control" name="lw_activity"><?php echo get_post_meta($setting[0]->ID, 'lw_legend', true); ?></textarea>
                             </div>
                         
-                            <!-- <hr>
-                            <div class="form-group">
-                                <input class="form-control btn btn-primary" type="submit" name="update" value="Actualizar" />
-                            </div>                                                    
-                     -->
+           
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group"> 
@@ -105,8 +101,9 @@ function lw_setting() {
                         </div>
                        
                         <div class="form-group">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1"> --- Mostrar Tour</label>
+                            
+                            <input type="checkbox" class="form-check-input" name="exampleCheck1"  id="exampleCheck1" <?php if(get_post_meta($setting[0]->ID, 'lw_tour', true) == true) { echo 'checked'; }; ?> >
+                            <label class="form-check-label" for="exampleCheck1"> ---- Mostrar Tour</label>
                         </div>
                        
                         <div class="form-group">
@@ -118,6 +115,14 @@ function lw_setting() {
                         </div>
                     </div>
                 
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 text-center">
+                        <hr>
+                        <div class="form-group">
+                            <input class="btn btn-dark" type="submit" name="update" value="Actualizar" />
+                        </div>                        
+                    </div>
                 </div>
             </form>
         </div>

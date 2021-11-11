@@ -40,6 +40,8 @@ function lw_create_setting() {
 register_activation_hook(__FILE__, 'lw_create_setting');
 
 
+
+
 // link para setting --------------------------------------------
 add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'lw_settings_link' );
 function lw_settings_link( $links ) {

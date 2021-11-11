@@ -34,7 +34,9 @@ function lw_pos() {
                 });
                 build_costumer();
                 get_totals();
-                // introJs().start();
+                if (<?php echo get_post_meta($setting[0]->ID, 'lw_tour', true); ?> == true) {
+                    introJs().start();
+                }
             }); 
             // --------------------------  add custumer ----------------------------------------------------------
             function customer_add (customer_id){
@@ -380,6 +382,19 @@ function lw_pos() {
                 $('#mitabla').html("");
             }
             //Cerrando Caja------------------------------------------------
+            
+            function box_details(params) {
+                $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
+                $.ajax({
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_box.php",
+                    dataType: 'html',
+                    contentType: 'text/html',
+                    data: {"box_id": <?php echo $box->ID; ?> },
+                    success: function (response) {
+                        $('#mitabla').html(response);	
+                    }
+                });
+            }
             function box_close(){
                 let nota_cierre = $("#nota_cierre").val();
                 let lw_monto_final = $("#lw_monto_final").val();
@@ -395,6 +410,8 @@ function lw_pos() {
                 });
                 
             }
+
+            // 
         </script>
 
         <div class="container-fluid mt-3">
@@ -411,10 +428,11 @@ function lw_pos() {
                         <a href="#" onclick="open_order()" class="icon icon-sm rounded-circle border" data-intro='Te muestra la ventas de la caja actual, al hacer click muestra y con otro click oculta.'><i class="fa fa-address-book"></i></a>
                         
                         <div class="text">
-                            <span class="text-muted"><?php echo $box->post_title; ?></span>
+                            <span class="text-muted"><?php echo $box->ID.' - '.$box->post_title; ?></span>
                             <input class="form-control" type="text" id="cod_box" value="<?php echo $box->ID; ?>" hidden>
-                            <br><button class="btn btn-dark btn-sm" id="box_show">Cerrar</button>
-                            <button class="btn btn-dark btn-sm" id="box_change">Cambiar</button>
+                            
+                            <br><button class="btn btn-dark btn-sm" id="box_change">Cambiar</button>
+                            <button class="btn btn-dark btn-sm" id="" onclick="box_details()">Cerrar</button>
                             <button class="btn btn-primary btn-sm" id="btn_payment_quick" onclick="pasarela('Efectivo')">Pago</button>
 
                         </div>
@@ -423,7 +441,7 @@ function lw_pos() {
             </div>
         </div>
 
-        <div id="mitabla"></div>
+        <div id="mitabla" style="border:thin"></div>
 
         <div class="container-fluid">
             <div class="row">
@@ -728,7 +746,7 @@ function lw_pos() {
                     // }
                 }
             });
-            introJs().start();
+            // introJs().start();
     </script>
     <?php
 }
