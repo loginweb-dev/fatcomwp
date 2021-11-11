@@ -11,9 +11,13 @@ function lw_pos() {
         <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
         <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/css/ui.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/css/responsive.css" rel="stylesheet" media="only screen and (max-width: 1200px)" />
-        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/js/script.js" type="text/javascript"></script>
+        <link href="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/node_modules/intro.js/introjs.css" rel="stylesheet" type="text/css" />
+        
 
+        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/js/script.js" type="text/javascript"></script>
         <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/library/notify.js" type="text/javascript"></script>
+        <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/node_modules/intro.js/intro.js" type="text/javascript"></script>
+
         
         <script type="text/javascript">
             $(document).ready(function() {
@@ -30,6 +34,7 @@ function lw_pos() {
                 });
                 build_costumer();
                 get_totals();
+                // introJs().start();
             }); 
             // --------------------------  add custumer ----------------------------------------------------------
             function customer_add (customer_id){
@@ -175,29 +180,41 @@ function lw_pos() {
                 });
             }
             function open_order(){
-                $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
-                $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_orders.php",
-                    dataType: 'html',
-                    contentType: 'text/html',
-                    data: {"box_id" : "<?php echo $box->ID; ?>" },
-                    success: function (response) {
-                        $('#mitabla').html(response);	
-                        // $('#modalBox').modal('show');
-                    }
-                });
+                if ($('#mitabla').html() == "") {
+                    $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
+                    $.ajax({
+                        url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_orders.php",
+                        dataType: 'html',
+                        contentType: 'text/html',
+                        data: {"box_id" : "<?php echo $box->ID; ?>" },
+                        success: function (response) {
+                            $('#mitabla').html(response);	
+                            // $('#modalBox').modal('show');
+                        }
+                    });
+                } else {
+                    $('#mitabla').html("");	
+                }
+        
             }
             // modal cart  ----------------------------------------------------------------------------
             function open_cart(){
-                $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
-                $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_cart.php",
-                    dataType: 'html',
-                    contentType: 'text/html',
-                    success: function (response) {
-                        $('#mitabla').html(response);	
-                    }
-                });
+                // var mitabla = $('#mitabla').text();
+                // console.log($('#mitabla').html() == "");
+                if ($('#mitabla').html() == "") {
+                    $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
+                    $.ajax({
+                        url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_cart.php",
+                        dataType: 'html',
+                        contentType: 'text/html',
+                        success: function (response) {
+                            $('#mitabla').html(response);	
+                        }
+                    });
+                } else {
+                    $('#mitabla').html("");	
+                }
+            
             }
             // -----------------  Clear Cart -----------------------------------------------------
             function cart_clear(){
@@ -362,7 +379,6 @@ function lw_pos() {
             function clear_search_products(){
                 $('#mitabla').html("");
             }
-
             //Cerrando Caja------------------------------------------------
             function box_close(){
                 let nota_cierre = $("#nota_cierre").val();
@@ -386,21 +402,20 @@ function lw_pos() {
            
                 <div class="col-lg-8 col-md-8 col-sm-12">
                     <div class="form-group">
-                        <input type="text" class="form-control mr-sm-2" placeholder="Buscar Productos" id="criterio_id">
-                        
+                        <input type="text" class="form-control mr-sm-2" placeholder="Buscar Productos" id="criterio_id" data-intro='Ingresa el criterio de busquedas de los prodcutos y presiona enter.'>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="icontext">
-                        <a href="#" onclick="open_cart()" class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></a>
-                        <a href="#" onclick="open_order()" class="icon icon-sm rounded-circle border"><i class="fa fa-address-book"></i></a>
+                        <a href="#" onclick="open_cart()" class="icon icon-sm rounded-circle border" data-intro='Te muestra el carrito del TPV, al hacer click muestra y con otro click oculta.'><i class="fa fa-shopping-cart"></i></a>
+                        <a href="#" onclick="open_order()" class="icon icon-sm rounded-circle border" data-intro='Te muestra la ventas de la caja actual, al hacer click muestra y con otro click oculta.'><i class="fa fa-address-book"></i></a>
                         
                         <div class="text">
                             <span class="text-muted"><?php echo $box->post_title; ?></span>
                             <input class="form-control" type="text" id="cod_box" value="<?php echo $box->ID; ?>" hidden>
                             <br><button class="btn btn-dark btn-sm" id="box_show">Cerrar</button>
                             <button class="btn btn-dark btn-sm" id="box_change">Cambiar</button>
-                            <button class="btn btn-primary btn-sm" id="btn_payment_quick" onclick="pasarela('Efectivo')">  Pago Rapido</button>
+                            <button class="btn btn-primary btn-sm" id="btn_payment_quick" onclick="pasarela('Efectivo')">Pago</button>
 
                         </div>
                     </div>
@@ -412,7 +427,7 @@ function lw_pos() {
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-8" data-intro='Catalago de Productos Filtrado por Categorias, Despliega por nombre, elige tu producto y agrega al carrito.'>
                     <div id="milistcatgs"></div>
                 </div>
                 <div class="col-md-4">
@@ -713,23 +728,7 @@ function lw_pos() {
                     // }
                 }
             });
-
-            // show box -------------------------------------------------------
-            $("#box_show").click(function (e) { 
-                e.preventDefault();		
-
-                $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
-                let box_id = "<?php echo $box->ID;  ?>";
-                $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_box.php",
-                    dataType: 'html',
-                    contentType: 'text/html',
-                    data: {"box_id": box_id },
-                    success: function (response) {
-                        $('#mitabla').html(response);	
-                    }
-                });
-            });
+            introJs().start();
     </script>
     <?php
 }

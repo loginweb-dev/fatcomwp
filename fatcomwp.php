@@ -12,7 +12,7 @@
 // insert post setting ------------------------------------------------------
 function lw_create_setting() {
 	$setting = array(
-		'post_title'    => 'Post setting TPV',
+		'post_title'    => 'Post setting FATCOMWP',
 		'post_status'   => 'publish',
 		'post_type'   => 'pos_lw_setting',
 		'meta_input' => array(
@@ -29,9 +29,13 @@ function lw_create_setting() {
 			'lw_cat_default' => 'Menu',
 			'lw_caja_default' => '272',
 			'lw_extra_id' => null,
+			'lw_tour' => 'true',
 		)
 	);
-	wp_insert_post( $setting );
+	if (!post_exists('pos_lw_setting')) {
+		wp_insert_post( $setting );
+	}
+	
 }
 register_activation_hook(__FILE__, 'lw_create_setting');
 

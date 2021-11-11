@@ -15,6 +15,7 @@ function lw_setting() {
         update_post_meta( $post->ID, 'lw_cat_default', $_POST["lw_cat_default"]);
         update_post_meta( $post->ID, 'lw_caja_default', $_POST["lw_caja_default"]);
         update_post_meta( $post->ID, 'lw_extra_id', $_POST["lw_extra_id"]);
+        update_post_meta( $post->ID, 'lw_tour', $_POST["exampleCheck1"] ? 'true' : 'false');
         
          header('Location: ' . admin_url('admin.php?page=terminal-punto-venta'), true);
          die();
@@ -43,47 +44,57 @@ function lw_setting() {
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-6">
-                    <!-- <a href="" class="float-right btn btn-outline-primary">Sign up</a> -->
-                    <h4 class="card-title">Configuracion</h4>
-                    <hr>
-                    <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
-                        <div class="form-group">
-                            <label>ID</label>
-                            <input readonly class="form-control" type="text" name="id" value="<?php echo $setting[0]->ID; ?>"/> 
-                        </div>
-                        <div class="form-group"> 
-                            <label>CEO</label>
-                            <input class="form-control" type="text" name="lw_ceo" value="<?php echo get_post_meta($setting[0]->ID, 'lw_ceo', true); ?>"/>
-                        </div>
-                        <div class="form-group"> 
-                            <label>Direccion</label>
-                            <textarea class="form-control" name="lw_direction"><?php echo get_post_meta($setting[0]->ID, 'lw_direction', true); ?></textarea>
-                        </div>
-                        <div class="form-group"> 
-                            <label>Telefono</label>
-                            <input class="form-control" type="text" name="lw_movil" value="<?php echo get_post_meta($setting[0]->ID, 'lw_movil', true); ?>"/>
-                        </div>
-                        <div class="form-group"> 
-                            <label>Ciudad</label>
-                            <input class="form-control" type="text" name="lw_city" value="<?php echo get_post_meta($setting[0]->ID, 'lw_city', true); ?>"/>
-                        </div>
-                        <div class="form-group"> 
-                            <label>Actividad</label>
-                            <textarea class="form-control" name="lw_activity"><?php echo get_post_meta($setting[0]->ID, 'lw_activity', true); ?></textarea>
-                        </div>
-                        <div class="form-group"> 
-                            <label>Nombre del Negocio</label>
-                            <input class="form-control" type="text" name="lw_name_business" value="<?php echo get_post_meta($setting[0]->ID, 'lw_name_business', true); ?>"/>
-                        </div>
-                        <div class="form-group"> 
-                            <label>NIT</label>
-                            <input class="form-control" type="text" name="lw_nit" value="<?php echo get_post_meta($setting[0]->ID, 'lw_nit', true); ?>"/>
-                        </div>
-                        <div class="form-group"> 
-                            <label>Leyenda</label>
-                            <textarea class="form-control" name="lw_activity"><?php echo get_post_meta($setting[0]->ID, 'lw_legend', true); ?></textarea>
-                        </div>
+                <div class="col-md-12 col-sm-12 text-center">
+                    <h4 class="">Configuracion de FATCOMWP</h4>
+                </div>
+            </div>
+            <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+            <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>ID</label>
+                                <input readonly class="form-control" type="text" name="id" value="<?php echo $setting[0]->ID; ?>"/> 
+                            </div>
+                            <div class="form-group"> 
+                                <label>CEO</label>
+                                <input class="form-control" type="text" name="lw_ceo" value="<?php echo get_post_meta($setting[0]->ID, 'lw_ceo', true); ?>"/>
+                            </div>
+                            <div class="form-group"> 
+                                <label>Direccion</label>
+                                <textarea class="form-control" name="lw_direction"><?php echo get_post_meta($setting[0]->ID, 'lw_direction', true); ?></textarea>
+                            </div>
+                            <div class="form-group"> 
+                                <label>Telefono</label>
+                                <input class="form-control" type="text" name="lw_movil" value="<?php echo get_post_meta($setting[0]->ID, 'lw_movil', true); ?>"/>
+                            </div>
+                            <div class="form-group"> 
+                                <label>Ciudad</label>
+                                <input class="form-control" type="text" name="lw_city" value="<?php echo get_post_meta($setting[0]->ID, 'lw_city', true); ?>"/>
+                            </div>
+                            <div class="form-group"> 
+                                <label>Actividad</label>
+                                <textarea class="form-control" name="lw_activity"><?php echo get_post_meta($setting[0]->ID, 'lw_activity', true); ?></textarea>
+                            </div>
+                            <div class="form-group"> 
+                                <label>Nombre del Negocio</label>
+                                <input class="form-control" type="text" name="lw_name_business" value="<?php echo get_post_meta($setting[0]->ID, 'lw_name_business', true); ?>"/>
+                            </div>
+                            <div class="form-group"> 
+                                <label>NIT</label>
+                                <input class="form-control" type="text" name="lw_nit" value="<?php echo get_post_meta($setting[0]->ID, 'lw_nit', true); ?>"/>
+                            </div>
+                            <div class="form-group"> 
+                                <label>Leyenda</label>
+                                <textarea class="form-control" name="lw_activity"><?php echo get_post_meta($setting[0]->ID, 'lw_legend', true); ?></textarea>
+                            </div>
+                        
+                            <!-- <hr>
+                            <div class="form-group">
+                                <input class="form-control btn btn-primary" type="submit" name="update" value="Actualizar" />
+                            </div>                                                    
+                     -->
+                    </div>
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group"> 
                             <label>Categoria Default</label>
                             <input class="form-control" type="text" name="lw_cat_default" value="<?php echo get_post_meta($setting[0]->ID, 'lw_cat_default', true); ?>"/>
@@ -92,6 +103,12 @@ function lw_setting() {
                             <label>Caja Predeterminada</label>
                             <input class="form-control" type="text" name="lw_caja_default" value="<?php echo get_post_meta($setting[0]->ID, 'lw_caja_default', true); ?>"/>
                         </div>
+                       
+                        <div class="form-group">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1"> --- Mostrar Tour</label>
+                        </div>
+                       
                         <div class="form-group">
                             <label>Image o Logo</label>
                             <a href="#" onclick="open_modal_galery()" class='button'> Galeria</a>
@@ -99,13 +116,10 @@ function lw_setting() {
                             <label>Extencion</label>
                             <input class="form-control" type="text" name="lw_img_extencion" value="<?php echo get_post_meta($setting[0]->ID, 'lw_img_extencion', true); ?>" />
                         </div>
-                        <hr>
-                        <div class="form-group">
-                            <input class="form-control btn btn-primary" type="submit" name="update" value="Actualizar" />
-                        </div>                                                    
-                    </form>
+                    </div>
+                
                 </div>
-            </div>
+            </form>
         </div>
 
             
