@@ -1,13 +1,16 @@
 <?php 
-require_once('../../../../wp-load.php');
+	require_once('../../../../wp-load.php');
     ?>
 
 	<div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-6 col-sm-12">
-
+            <div class="col-md-4 col-lg-4 col-sm-12">
 				<div class="form-group text-center">
-					<h5><u>Tipo de Venta</u></h5>
+                    <h5><u>Pasarela de Pago</u></h5>
+                </div>
+				<div class="form-group">
+					<label><u>Tipo de Venta</u></label>
+					<br>
 					<label class="custom-control custom-radio custom-control-inline">
 						<input class="custom-control-input" checked="" type="radio" id="no_estado" name="estado" value="option1">
 						<span class="custom-control-label"> Recibo </span>
@@ -31,7 +34,7 @@ require_once('../../../../wp-load.php');
 							<input id="cambio" type="text" class="form-control" placeholder="" value="0" readonly>
 						</div> 
 					<!-- </div> -->
-					<div class="form-group text-center">
+					<div class="form-group">
 						<p class=""><u>Opciones de Impresion</u></p>
 						<label class="custom-control custom-radio custom-control-inline">
 							<input class="custom-control-input" checked="" type="radio" id="volver" name="volver" value="option3">

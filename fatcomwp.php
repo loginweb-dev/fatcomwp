@@ -75,13 +75,13 @@ function fw_add_menu() {
 			'lw_setting'); //function
 
 
-		add_submenu_page('terminal-punto-venta', //parent slug
-			'Dosificaciones', //page title
-			'Dosificaciones', //menu title
-			'manage_options', //capability
-			'dosifications', //menu slug
-			'dosifications_list'
-		); //function
+		// add_submenu_page('terminal-punto-venta', //parent slug
+		// 	'Dosificaciones', //page title
+		// 	'Dosificaciones', //menu title
+		// 	'manage_options', //capability
+		// 	'dosifications', //menu slug
+		// 	'dosifications_list'
+		// ); //function
 
 }
 // Cargando views php -----------------------------------------------------

@@ -3,8 +3,8 @@
     $orders = wc_get_orders(array('limit' => 100, 'orderby' => 'date'));
 ?>
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-6 col-sm-12">
         
           <div class="form-group text-center">
             <h5 >PEDIDOS DE LA CAJA</h5>  
