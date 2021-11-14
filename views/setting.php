@@ -20,7 +20,7 @@ function lw_setting() {
          header('Location: ' . admin_url('admin.php?page=terminal-punto-venta'), true);
          die();
     } 
-    $setting = get_posts( array('post_status' => 'publish', 'post_type' => 'pos_lw_setting') );
+    $setting = get_posts( array('post_status' => 'publish', 'post_type' => 'pos_lw_setting', 'orderby' => 'date') );
     ?>
         <!-- <meta http-equiv="pragma" content="no-cache" /> -->
         <script src="<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/js/jquery-2.0.0.min.js" type="text/javascript"></script>

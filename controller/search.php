@@ -110,31 +110,39 @@
         // echo json_encode(array('message' => 'Cliente Obtenido Correctamente..', 'id' => $get_user->id, 'billing_first_name' => get_user_meta($get_user->id ,'billing_first_name', true),  $get_user->id, 'billing_first_name' => get_user_meta($get_user->id ,'billing_first_name', true)));
     } else if($_GET["get_customers"]) {
 
-        $search_string = $_GET["get_customers"];
+    //     $search_string = $_GET["get_customers"];
 
-        $args  = array(
-            'search' => "*{$search_string}*",
-            'search_columns' => array(
-            'user_login',
-            'user_nicename',
-            'user_email',
-            'meta_query' => array(
-                'relation' => 'OR',
-                    array(
-                        'key' => 'billing_first_name',
-                        'value' => $search_string,
-                        'compare' => 'LIKE'
-                    ),
-                    array(
-                        'key' => 'billing_last_name',
-                        'value' => $search_string,
-                        'compare' => 'LIKE'
-                    )
-                ))
-            );
-       $query = new WP_User_Query($args);
-       $users = (array) $query->results;
-       $json = array();
+    //     $args  = array(
+    //         'search' => "*{$search_string}*",
+    //         'search_columns' => array(
+    //         'user_login',
+    //         'user_nicename',
+    //         'user_email',
+    //         'meta_query' => array(
+    //             'relation' => 'OR',
+    //                 array(
+    //                     'key' => 'billing_first_name',
+    //                     'value' => $search_string,
+    //                     'compare' => 'LIKE'
+    //                 ),
+    //                 array(
+    //                     'key' => 'billing_last_name',
+    //                     'value' => $search_string,
+    //                     'compare' => 'LIKE'
+    //                 )
+    //             ))
+    //         );
+    //    $query = new WP_User_Query($args);
+    //    $users = (array) $query->results;
+
+    $search_string = $_GET["get_customers"];
+    $json = array();
+    $args = array(
+        'search' => "*{$search_string}*",
+        // 'role__in' => "cliente"
+    );
+    $users = get_users( $args );
+    
        foreach ( $users as $user ) {
            $usermeta = get_user_meta($user->id);
            array_push($json, array(

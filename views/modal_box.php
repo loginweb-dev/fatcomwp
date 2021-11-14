@@ -24,10 +24,10 @@ require_once('../../../../wp-load.php');
                     <label><u>Monto Inicial</u></label>
                     <input id="lw_monto_inicial" type="text" class="form-control" placeholder="" value="0">
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label><u>Nota de Apertura</u></label>
                     <textarea id="" class="form-control"><?php echo get_post_meta($post->ID, 'lw_nota_apertura', true);  ?></textarea>
-                </div>
+                </div> -->
                 <div class="form-group">
                     <label><u>Nota de Cierre</u></label>
                     <textarea id="nota_cierre" class="form-control"></textarea>
@@ -39,7 +39,7 @@ require_once('../../../../wp-load.php');
                 </div>
         
                 <div class="form-group text-center">
-                    <button href="#" onclick="box_close()" type="button" class="btn btn-primary btn-sm"> Cerrar </button>
+                    <button href="#" onclick="box_close()" type="button" class="btn btn-primary btn-sm"> Guardar </button>
                     <a href="#" class="btn btn-dark btn-sm" onclick='clear_search_products()'>  Cancelar </a>   
                 </div>
             </div>

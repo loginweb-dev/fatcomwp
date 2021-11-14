@@ -10,7 +10,12 @@
 
 
 // insert post setting ------------------------------------------------------
+
 function lw_create_setting() {
+	$setting = get_posts(array('post_type' => 'pos_lw_setting'));
+	for($i=0; $i < count($setting); $i++) { 
+		wp_delete_post($setting[$i]->ID, true);
+	}
 	$setting = array(
 		'post_title'    => 'Post setting FATCOMWP',
 		'post_status'   => 'publish',

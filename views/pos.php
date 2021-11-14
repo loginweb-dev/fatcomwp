@@ -1,7 +1,7 @@
 <?php
 function lw_pos() {
 
-    $setting = get_posts( array('post_status' => 'publish', 'post_type' => 'pos_lw_setting') );
+    $setting = get_posts( array('post_status' => 'publish', 'post_type' => 'pos_lw_setting', 'orderby' => 'date') );
     $box = get_post( $setting[0]->lw_caja_default );
     $outlet = get_post(get_post_meta($box->ID, 'outlet', true));
     $boxjs_outletjs = json_encode(array('idb' => $box->ID, 'titleb' => $box->post_title, 'ido' => $outlet->ID, 'titleo' => $outlet->post_title));
@@ -23,9 +23,15 @@ function lw_pos() {
 
         
         <script type="text/javascript">
+            let isMobile = {
+                mobilecheck : function() {
+                    return (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino|android|ipad|playbook|silk/i.test(navigator.userAgent||navigator.vendor||window.opera)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test((navigator.userAgent||navigator.vendor||window.opera).substr(0,4)))
+                }
+            }
             $(document).ready(function() {
                 $.notify.defaults({globalPosition: 'bottom right'})
-                // jQuery code--------------------------
+
+                // ------------------ Catalog -----------------------------------------
                 $('#milistcatgs').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
                 $.ajax({
                     url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/catalogo.php",
@@ -35,40 +41,53 @@ function lw_pos() {
                         $('#milistcatgs').html(response);	
                     }
                 });
-                build_costumer();
-                get_totals();
-                if (<?php echo get_post_meta($setting[0]->ID, 'lw_tour', true); ?> == true) {
-                    introJs().start();
-                }
-                
-                //-------------------  SESSION -------------------
+       
+                //-------------------  SESSION -----------------------------------------
                 if(sessionStorage.getItem('boxjs_outletjs') === null ){
                     sessionStorage.setItem('boxjs_outletjs', '<?php echo $boxjs_outletjs; ?>');
                 } 
-
-                console.log(sessionStorage.getItem('boxjs_outletjs'));
                 $('#box_outlet').html("<span class='text-muted'>"+JSON.parse(sessionStorage.getItem('boxjs_outletjs')).titleb+"</span><br><span class='text-muted'>"+JSON.parse(sessionStorage.getItem('boxjs_outletjs')).titleo+"</span>");
+
+                // -----------   Begin --------------------------------------------------
+               
+                if (<?php echo get_post_meta($setting[0]->ID, 'lw_tour', true); ?> == true) {
+                    introJs().start();
+                }
+                build_costumer();
+                get_totals();
             }); 
-            // --------------------------  add custumer ----------------------------------------------------------
+            // --------------------------  Custumer ------------------------------------
+            //--------------------------------------------------------------------------
             function customer_add (customer_id){
                 $('#list_search_customers').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
-                    $.ajax({
-                        url: "controller/search.php",
-                        dataType: "json",
-                        data: {"get_customer_id": customer_id },
-                        success: function (response) {
-                            let  customer = "<ul class='list-group list-group-flush'>";
-                                customer += "<li class='list-group-item'><span>Cliente: </span><small>"+response[0].billing_first_name+"  "+response[0].billing_last_name+"</small></li>";
-                                customer += "<li class='list-group-item'><span>NIT/CI: </span><small>"+response[0].billing_postcode+"</small></li>";
-                                customer += "<li class='list-group-item'><span>Correo: </span><small>"+response[0].user_email+"</small></li>";
-                                customer += "<li class='list-group-item'><span>Telefono: </span><small>"+response[0].billing_phone+"</small></li>";
-                                customer += "</ul>";
-                            $('#list_search_customers').html(customer);	
-                            $("#id_customer").val(response[0].id);
-                        }
-                    });
+                $.ajax({
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/search.php",
+                    dataType: "json",
+                    data: {"get_customer_id": customer_id },
+                    success: function (response) {
+                        let  customer = "<ul class='list-group list-group-flush'>";
+                            customer += "<li class='list-group-item'><span>Cliente: </span><small>"+response[0].billing_first_name+"  "+response[0].billing_last_name+"</small></li>";
+                            customer += "<li class='list-group-item'><span>NIT/CI: </span><small>"+response[0].billing_postcode+"</small></li>";
+                            customer += "<li class='list-group-item'><span>Correo: </span><small>"+response[0].user_email+"</small></li>";
+                            customer += "<li class='list-group-item'><span>Telefono: </span><small>"+response[0].billing_phone+"</small></li>";
+                            customer += "</ul>";
+                        $('#list_search_customers').html(customer);	
+                        $("#id_customer").val(response[0].id);
+                    }
+                });
             }
-            // ----------------  SET CUSTUMER ------------------------------------------------------
+            function customer_create(){
+                $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
+                $.ajax({
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_customer.php",
+                    dataType: 'html',
+                    contentType: 'text/html',
+                    success: function (response) {
+                        $('#mitabla').html(response);	
+                        $(window).scrollTop(0);
+                    }
+                });
+            }
             function build_costumer(){
                 $('#list_search_customers').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
                 $.ajax({
@@ -87,33 +106,48 @@ function lw_pos() {
                     }
                 });
             }
-            // -------------- GET TOTALS -------------------------------------------------------------
-            function get_totals(){
+            function customer_store(){
+                
+                let first_name = $("#first_name").val();
+                let last_name = $("#last_name").val();
+                let billing_phone = $("#billing_phone").val();
+                let billing_postcode = $("#billing_postcode").val();
+                let user_login = first_name+'.'+last_name;
+                let user_email = first_name+'.'+last_name+'@loginweb.dev';
                 $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/customer.php",
                     dataType: "json",
-                    data: {"get_totals": true },
+                    data: {
+                        "customer_store": true, 
+                        "user_email":  user_email, 
+                        "user_login":  user_login, 
+                        "first_name":  first_name, 
+                        "last_name":  last_name, 
+                        "billing_phone":  billing_phone, 
+                        "billing_postcode":  billing_postcode },
                     success: function (response) {
-                        if (response.cant_items == 0) {
-                            $('#btn_pago_efectivo').prop("disabled", true);
-							$('#btn_pago_tigo_money').prop("disabled", true);
-							$('#btn_pago_qr_simple').prop("disabled", true);
-							$('#btn_pago_transferencia').prop("disabled", true);
-							$('#btn_pago_tarjeta_cd').prop("disabled", true);
-                        } else {
-                            $('#btn_pago_efectivo').prop("disabled", false);
-							$('#btn_pago_tigo_money').prop("disabled", false);
-							$('#btn_pago_qr_simple').prop("disabled", false);
-							$('#btn_pago_transferencia').prop("disabled", false);
-							$('#btn_pago_tarjeta_cd').prop("disabled", false);
-                        }
-                        $('#total_numeral').html("<strong>"+response.total_numeral+"</strong>");
-                        $('#total_literal').html("<samll>"+response.total_literal+"</samll>");
-                        $('#cant_items').html("<strong>"+response.cant_items+"</strong>");
+                        $.ajax({
+                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/search.php",
+                            dataType: "json",
+                            data: {"get_customers": user_email },
+                            success: function (response) {
+                                let  customer = "<ul class='list-group list-group-flush'>";
+                                    customer += "<li class='list-group-item'><span>Cliente: </span><small>"+response[0].billing_first_name+"  "+response[0].billing_last_name+"</small></li>";
+                                    customer += "<li class='list-group-item'><span>NIT O Carnet: </span><small>"+response[0].billing_postcode+"</small></li>";
+                                    customer += "<li class='list-group-item'><span>Correo: </span><small>"+response[0].user_email+"</small></li>";
+                                    customer += "<li class='list-group-item'><span>Telefono: </span><small>"+response[0].billing_phone+"</small></li>";
+                                    customer += "</ul>";
+                                $('#list_search_customers').html(customer);	
+                                $("#id_customer").val(response[0].id);
+                            }
+                        });
+                        $.notify(response.message, "succcess");
+                        $('#mitabla').html("");	
                     }
-                });	
+                });
             }
-            // -------------------  Add product ---------------------------------------------
+            // -------------------  Products  ---------------------------------------------
+            //-----------------------------------------------------------------------------
             function product_add (product_id){
                 $('#milistsearch').html("");
                 var stock = prompt("Cantidad a Ingresar", 1);
@@ -199,7 +233,7 @@ function lw_pos() {
                         url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_orders.php",
                         dataType: 'html',
                         contentType: 'text/html',
-                        data: {"box_id" : "<?php echo $_SESSION["box"]->ID; ?>" },
+                        data: {"box_id" : JSON.parse(sessionStorage.getItem('boxjs_outletjs')).idb },
                         success: function (response) {
                             $('#mitabla').html(response);	
                             // $('#modalBox').modal('show');
@@ -210,23 +244,8 @@ function lw_pos() {
                 }
         
             }
-            // modal list  ----------------------------------------------------------------------------
-            function open_list(){
-                if ($('#mitabla').html() == "") {
-                    $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
-                    $.ajax({
-                        url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_list.php",
-                        dataType: 'html',
-                        contentType: 'text/html',
-                        success: function (response) {
-                            $('#mitabla').html(response);	
-                        }
-                    });
-                } else {
-                    $('#mitabla').html("");	
-                }
-            }
-            // modal list  ----------------------------------------------------------------------------
+            // ----------------   Cart  -------------------------------------------------------
+            //----------------------------------------------------------------------------------
             function open_cart(){
                 if ($('#mitabla').html() == "") {
                     $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
@@ -242,7 +261,6 @@ function lw_pos() {
                     $('#mitabla').html("");	
                 }
             }
-            // -----------------  Clear Cart -----------------------------------------------------
             function cart_clear(){
                 $.ajax({
                     url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
@@ -255,38 +273,12 @@ function lw_pos() {
                     }
                 });
             }
-            function pasarela(type_payment) {
-                if ($('#mitabla').html() == "") {
-                    $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
-                    let total = 0;
-                    $.ajax({
-                        url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
-                        dataType: "json",
-                        data: { "get_totals": true },
-                        success: function (response) {
-                            total = response.total_numeral;	
-                            $.ajax({
-                                url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_pasarela.php",
-                                dataType: 'html',
-                                contentType: 'text/html',
-                                data: {"total" : total, "type_payment" : type_payment},
-                                success: function (response) {
-                                    $('#mitabla').html(response);	
-                                    $(window).scrollTop(0);
-                                }
-                            });
-                        }
-                    });	
-                } else {
-                    $('#mitabla').html("");
-                }
-          
-            }
-            // Create new Shop Order----------------------------------------------
+            // ------------- Orders--------------------------------------------------------
+            // --------------------------------------------------------------------------
             function new_shop_order(type_payment){
                 $.notify("Pedido en Proceso", "success");
                 let id_customer = $("#id_customer").val();
-                let cod_box = $("#cod_box").val();
+                let cod_box = JSON.parse(sessionStorage.getItem('boxjs_outletjs')).idb;
                 let entregado = $("#entregado").val();
                 let cambio = $("#cambio").val();
                 let tipo_venta = $("#no_estado").is(":checked") ? "recibo" : "factura";
@@ -307,11 +299,11 @@ function lw_pos() {
                                         get_totals();
                                         clear_search_products();
                                         setTimeout(function(){ $.notify("Abriendo PDF", "info"); $('html, body').scrollTop(0); }, 1000);
-                                        // if(isMobile.mobilecheck()){
-                                        //     window.location.href = '<?php echo WP_PLUGIN_URL; ?>'+'/fatcomwp/views/print_recibo.php?cod_order='+response.cod_order;
-                                        // }else{
+                                        if(isMobile.mobilecheck()){
+                                            window.location.href = '<?php echo WP_PLUGIN_URL; ?>'+'/fatcomwp/views/print_recibo.php?cod_order='+response.cod_order;
+                                        }else{
                                             window.open('<?php echo WP_PLUGIN_URL; ?>'+'/fatcomwp/views/print_recibo.php?cod_order='+response.cod_order, '_blank', 'location=yes,height=600,width=400,scrollbars=yes,status=yes');
-                                        // }
+                                        }
                                     }
                                 });
                             
@@ -388,7 +380,6 @@ function lw_pos() {
                     }
                 }
             }
-            // Venta Detalle  --------------------------------------------------------------
             function entregado(){
                 let entregado = $("#entregado").val();
                 $('#cambio').val("trabajando...");
@@ -409,8 +400,63 @@ function lw_pos() {
             function clear_search_products(){
                 $('#mitabla').html("");
             }
-            //Cerrando Caja------------------------------------------------
-            
+            function pasarela(type_payment) {
+                if ($('#mitabla').html() == "") {
+                    $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
+                    let total = 0;
+                    $.ajax({
+                        url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
+                        dataType: "json",
+                        data: { "get_totals": true },
+                        success: function (response) {
+                            total = response.total_numeral;	
+                            $.ajax({
+                                url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_pasarela.php",
+                                dataType: 'html',
+                                contentType: 'text/html',
+                                data: {"total" : total, "type_payment" : type_payment},
+                                success: function (response) {
+                                    $('#mitabla').html(response);	
+                                    $(window).scrollTop(0);
+                                }
+                            });
+                        }
+                    });	
+                } else {
+                    $('#mitabla').html("");
+                }
+          
+            }
+            function get_totals(){
+                $.ajax({
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
+                    dataType: "json",
+                    data: {"get_totals": true },
+                    success: function (response) {
+                        if (response.cant_items == 0) {
+                            $('#btn_pago_efectivo').prop("disabled", true);
+							$('#btn_pago_tigo_money').prop("disabled", true);
+							$('#btn_pago_qr_simple').prop("disabled", true);
+							$('#btn_pago_transferencia').prop("disabled", true);
+							$('#btn_pago_tarjeta_cd').prop("disabled", true);
+                            $('#payment_quick').prop("disabled", true);
+                        } else {
+                            $('#btn_pago_efectivo').prop("disabled", false);
+							$('#btn_pago_tigo_money').prop("disabled", false);
+							$('#btn_pago_qr_simple').prop("disabled", false);
+							$('#btn_pago_transferencia').prop("disabled", false);
+							$('#btn_pago_tarjeta_cd').prop("disabled", false);
+                            $('#payment_quick').prop("disabled", false);
+
+                        }
+                        $('#total_numeral').html("<strong>"+response.total_numeral+"</strong>");
+                        $('#total_literal').html("<samll>"+response.total_literal+"</samll>");
+                        $('#cant_items').html("<strong>"+response.cant_items+"</strong>");
+                    }
+                });	
+            }
+            // ----------- Boxs ------------------------------------------------
+            //-----------------------------------------------------------------
             function box_details(params) {
                 if ($('#mitabla').html() == "") {
                     $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
@@ -418,7 +464,7 @@ function lw_pos() {
                         url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_box.php",
                         dataType: 'html',
                         contentType: 'text/html',
-                        data: {"box_id":  sessionStorage.getItem('boxjs').id },
+                        data: {"box_id":  JSON.parse(sessionStorage.getItem('boxjs_outletjs')).idb },
                         success: function (response) {
                             $('#mitabla').html(response);	
                         }
@@ -431,19 +477,17 @@ function lw_pos() {
             function box_close(){
                 let nota_cierre = $("#nota_cierre").val();
                 let lw_monto_final = $("#lw_monto_final").val();
-                let box_id = "<?php echo $post->ID;  ?>";
+             
                 $.ajax({
-                    url: "miphp/boxs.php",
-                    dataType: "json",
-                    data: {"box_id": box_id, "nota_cierre": nota_cierre, "lw_monto_final": lw_monto_final },
-                    success: function (response) {
-                        $('#modalBox').modal('toggle');
-                        window.location.href = "<?php echo admin_url('admin.php?page=cajas'); ?>";
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/boxs.php",
+                    data: {"box_id": JSON.parse(sessionStorage.getItem('boxjs_outletjs')).idb, "nota_cierre": nota_cierre, "lw_monto_final": lw_monto_final },
+                    success: function () {
+                        $.notify("Session Cerrada", "success");
+                        sessionStorage.removeItem('boxjs_outletjs');
+                        window.location.href = "<?php echo admin_url(); ?>";
                     }
                 });
-                
             }
-            // change box --------------------------------------------
             function box_change(box_id) {
                 $.ajax({
                     url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/boxs.php",
@@ -457,11 +501,27 @@ function lw_pos() {
                     }
                 });
             }
+            function open_list(){
+                if ($('#mitabla').html() == "") {
+                    $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");	
+                    $.ajax({
+                        url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/views/modal_list.php",
+                        dataType: 'html',
+                        contentType: 'text/html',
+                        data: {"box_id" : JSON.parse(sessionStorage.getItem('boxjs_outletjs')).idb },
+                        success: function (response) {
+                            $('#mitabla').html(response);	
+                        }
+                    });
+                } else {
+                    $('#mitabla').html("");	
+                }
+            }
+
         </script>
 
         <div class="container-fluid mt-3">
             <div class="row">
-           
                 <div class="col-lg-8 col-md-8 col-sm-12">
                     <div class="form-group">
                         <input type="text" class="form-control mr-sm-2" placeholder="Buscar Productos" id="criterio_id" data-intro='Ingresa el criterio de busquedas de los prodcutos y presiona enter.'>
@@ -471,16 +531,11 @@ function lw_pos() {
                     <div class="icontext">
                         <a href="#" onclick="open_cart()" class="icon icon-sm rounded-circle border" data-intro='Te muestra el carrito del TPV, al hacer click muestra y con otro click oculta.'><i class="fa fa-shopping-cart"></i></a>
                         <a href="#" onclick="open_order()" class="icon icon-sm rounded-circle border" data-intro='Te muestra la ventas de la caja actual, al hacer click muestra y con otro click oculta.'><i class="fa fa-address-book"></i></a>
-                        
                         <div class="text">
-
                             <div id="box_outlet"></div>
-                            <input class="form-control" type="text" id="cod_box" value="<?php echo $_SESSION["box"]->ID; ?>" hidden>
-                            
-                            <button class="btn btn-dark btn-sm" onclick="open_list()">Cambiar</button>
-                            <button class="btn btn-dark btn-sm" onclick="box_details()">Cerrar</button>
-                            <button class="btn btn-primary btn-sm" id="btn_payment_quick" onclick="pasarela('Efectivo')">Pago</button>
-
+                            <button class="btn btn-dark btn-sm" onclick="open_list()" data-intro='Por defecto el TPV, carga la caja Predeterminada, por favor realize el cambio a caja correspondiente a su negocio, al hacer click muestra y con otro click oculta.'>Cambiar</button>
+                            <button class="btn btn-dark btn-sm" onclick="box_details()" data-intro='Con esta opcion se puede realizar el cierre de caja actual, al hacer click muestra y con otro click oculta.'>Cerrar</button>
+                            <button class="btn btn-primary btn-sm" id="payment_quick" onclick="pasarela('Efectivo')" data-intro='Con accion puede realiza una venta rapida con efectivo, al hacer click muestra y con otro click oculta.'>Pago</button>
                         </div>
                     </div>
                 </div>
@@ -563,7 +618,7 @@ function lw_pos() {
                             </article>
                         </div>
                     <?php } ?>
-                    <div class="">
+                    <div class="" data-intro='Resumen de Carrito, con opciones de adjuntar notas a la venta.'>
                         <article class="">
                             <header class="card-header">
                                 <a href="#" data-toggle="collapse" data-target="#collapse35">
@@ -597,7 +652,7 @@ function lw_pos() {
                         </article>
 
                     </div>
-                    <div class="">
+                    <div class="" data-intro='Widget del Cliente, por defecto el TPV carga un cliente para la venta, si desea cambiar o crear un clinete nuevo, primero realize la busqueda y si no se encuetra podra crear uno nuevo.'>
                         <article class="">
                             <header class="card-header">
                                 <a href="#" data-toggle="collapse" data-target="#collapse33">
@@ -621,8 +676,7 @@ function lw_pos() {
                             </div>
                         </article>
                     </div>
-                   
-                    <div class="">
+                    <div class="" data-intro='Widget pararela de pago, con el TPV puedes realizar tus cobros de diferentes forma.'>
                         <article class="">
                             <header class="card-header">
                                 <a href="#" data-toggle="collapse" data-target="#collapse36">
@@ -653,7 +707,7 @@ function lw_pos() {
                             </div>
                         </article>
                     </div>
-                    <div class="">
+                    <!-- <div class="">
                         <article class="">
                             <header class="card-header">
                                 <a href="#" data-toggle="collapse" data-target="#collapse37" class="collapsed" aria-expanded="false">
@@ -674,125 +728,135 @@ function lw_pos() {
                                 </div>
                             </div>
                         </article>
-                    </div>
+                    </div> -->
                 </div> 
             </div> 
         </div> 
-    <!-- </section> -->
-
-    <div class="modal fade" id="modalBox" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Vista Rapida</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="box_body"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+ 
     <script>
+        // searchs products --------------------------------------------------------------
+        $("#criterio_id").on('keyup', function (e) {
+            e.preventDefault();
+            
+            
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                // alert("Hola mundo");
+                // if ($("#qr_barra").is(":checked")) {
+                //     // console.log(" SI Barra");
+                //     $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
 
-            // searchs products --------------------------------------------------------------
-            $("#criterio_id").on('keyup', function (e) {
-                e.preventDefault();
-                
-                
-                if (e.key === 'Enter' || e.keyCode === 13) {
-                    // alert("Hola mundo");
-                    // if ($("#qr_barra").is(":checked")) {
-                    //     // console.log(" SI Barra");
-                    //     $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
+                //     $.ajax({
+                //         url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/search.php",
+                //         dataType: "json",
+                //         data: { "get_sku": $("#criterio_id").val() },
+                //         success: function (response) {
+                //             if (response.length == 0) {
+                //                 $('#milistsearch').html("<p>Sin Resultados  <a href='<?php echo get_site_url(); ?>/wp-admin/post-new.php?post_type=product' target='_blank' class='btn btn-sm btn-primary'>Crear Nuevo</a></p>");	
+                //             } else {
+                                
+                //                 $.ajax({
+                //                     url: "miphp/micart.php",
+                //                     data: { "add": response.product_id },
+                //                     dataType: "json",
+                //                     success: function (response1) {
+                //                         build_cart();
+                //                         $.notify(response1.message, "info");
+                //                         $("#criterio_id").focus();
+                //                         $("#criterio_id").val("");
+                //                     }
+                //                 });
+                //             }		
+                //         }
+                //     });
 
-                    //     $.ajax({
-                    //         url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/search.php",
-                    //         dataType: "json",
-                    //         data: { "get_sku": $("#criterio_id").val() },
-                    //         success: function (response) {
-                    //             if (response.length == 0) {
-                    //                 $('#milistsearch').html("<p>Sin Resultados  <a href='<?php echo get_site_url(); ?>/wp-admin/post-new.php?post_type=product' target='_blank' class='btn btn-sm btn-primary'>Crear Nuevo</a></p>");	
-                    //             } else {
+                // }else{
+                    // console.log(" No Barra");
+                    $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
+                
+                    $.ajax({
+                        url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/search.php",
+                        dataType: "json",
+                        data: { "get_products": $("#criterio_id").val() },
+                        success: function (response) {
+                            if (response.length == 0) {
+                                $('#mitabla').html("<p>Sin Resultados  <a href='<?php echo get_site_url(); ?>/wp-admin/post-new.php?post_type=product' target='_blank' class='btn btn-sm btn-dark'>Crear Nuevo</a></p>");	
+                            } else {
+                                
+                                let table = "";
+                                
+                                
+                                table += "<table class='table'><tbody>";
+                                for(var i=0; i< response.length; i++){
+                                    var userObjList = JSON.parse(response[i].brands);
+                                    let roleList = '';
+                                    if (userObjList.length > 0) {								
+                                        userObjList.forEach(userObj => {
+                                            roleList += userObj.name+', ';
+                                        });
+                                    }
                                     
-                    //                 $.ajax({
-                    //                     url: "miphp/micart.php",
-                    //                     data: { "add": response.product_id },
-                    //                     dataType: "json",
-                    //                     success: function (response1) {
-                    //                         build_cart();
-                    //                         $.notify(response1.message, "info");
-                    //                         $("#criterio_id").focus();
-                    //                         $("#criterio_id").val("");
-                    //                     }
-                    //                 });
-                    //             }		
-                    //         }
-                    //     });
+                                    var userObjList2 = JSON.parse(response[i].cats);
+                                    let roleList2 = '';
+                                    if (userObjList2.length > 0) {
+                                        userObjList2.forEach(userObj => {
+                                            roleList2 += userObj.name+', ';
+                                        });
+                                    }
+                                    var userObjList3 = JSON.parse(response[i].tags);
+                                    let roleList3 = '';
+                                    if (userObjList3.length > 0) {
+                                        userObjList3.forEach(userObj => {
+                                            roleList3 += userObj.name+', ';
+                                        });
+                                    }
+                                    let img = response[i].image ? response[i].image : '<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/default_product.png';
+                                    table += "<tr><td><figure class='itemside'><div class='aside'><img src="+img+
+                                        " class='img-sm'></div><figcaption class='info'><h6>"+response[i].name+
+                                        "</h6><button onclick='product_add("+response[i].id+")' type='button' class='btn btn-sm btn-primary'><i class='fa fa-shopping-cart'></i></button><p class='text-muted small'>  Precio Venta: "+response[i].regular_price+
+                                        "<p class='text-muted small'>  Stock: "+response[i].stock_quantity+
+                                        "<br> ID: "+response[i].id+"<br> SKU: "+response[i].sku+"<br> MARCAS: "+roleList+"<br> CATEGORIAS: "+roleList2+"</p></figcaption></figure></td>"+
+                                        "<td><strong>Detalles</strong><br><small>Precio Compra: "+response[i].bought_price+"<br> Estante: "+response[i].lg_estante+"<br> Bloque: "+response[i].lg_bloque+"<br> Vence: "+response[i].lg_date+"</small><br> Etiquetas: "+roleList3+"<br></td></tr>";
+                                }	
+                                table += "</tbody></table>";
+                                table += "<p> "+response.length+" resultados para: '"+$("#criterio_id").val()+"' <a href='#' onclick='clear_search_products()' class='btn btn-sm btn-dark' id='clear_search_products'>Borrar</a></p>";
+                                $('#mitabla').html(table);	
+                            }		
+                        }
+                    });
 
-                    // }else{
-                        // console.log(" No Barra");
-                        $('#mitabla').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
                     
-                        $.ajax({
-                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/search.php",
-                            dataType: "json",
-                            data: { "get_products": $("#criterio_id").val() },
-                            success: function (response) {
-                                if (response.length == 0) {
-                                    $('#mitabla').html("<p>Sin Resultados  <a href='<?php echo get_site_url(); ?>/wp-admin/post-new.php?post_type=product' target='_blank' class='btn btn-sm btn-dark'>Crear Nuevo</a></p>");	
-                                } else {
-                                    
-                                    let table = "";
-                                    
-                                    
-                                    table += "<table class='table'><tbody>";
-                                    for(var i=0; i< response.length; i++){
-                                        var userObjList = JSON.parse(response[i].brands);
-                                        let roleList = '';
-                                        if (userObjList.length > 0) {								
-                                            userObjList.forEach(userObj => {
-                                                roleList += userObj.name+', ';
-                                            });
-                                        }
-                                        
-                                        var userObjList2 = JSON.parse(response[i].cats);
-                                        let roleList2 = '';
-                                        if (userObjList2.length > 0) {
-                                            userObjList2.forEach(userObj => {
-                                                roleList2 += userObj.name+', ';
-                                            });
-                                        }
-                                        var userObjList3 = JSON.parse(response[i].tags);
-                                        let roleList3 = '';
-                                        if (userObjList3.length > 0) {
-                                            userObjList3.forEach(userObj => {
-                                                roleList3 += userObj.name+', ';
-                                            });
-                                        }
-                                        let img = response[i].image ? response[i].image : '<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/default_product.png';
-                                        table += "<tr><td><figure class='itemside'><div class='aside'><img src="+img+
-                                            " class='img-sm'></div><figcaption class='info'><h6>"+response[i].name+
-                                            "</h6><button onclick='product_add("+response[i].id+")' type='button' class='btn btn-sm btn-primary'><i class='fa fa-shopping-cart'></i></button><p class='text-muted small'>  Precio Venta: "+response[i].regular_price+
-                                            "<p class='text-muted small'>  Stock: "+response[i].stock_quantity+
-                                            "<br> ID: "+response[i].id+"<br> SKU: "+response[i].sku+"<br> MARCAS: "+roleList+"<br> CATEGORIAS: "+roleList2+"</p></figcaption></figure></td>"+
-                                            "<td><strong>Detalles</strong><br><small>Precio Compra: "+response[i].bought_price+"<br> Estante: "+response[i].lg_estante+"<br> Bloque: "+response[i].lg_bloque+"<br> Vence: "+response[i].lg_date+"</small><br> Etiquetas: "+roleList3+"<br></td></tr>";
-                                    }	
-                                    table += "</tbody></table>";
-                                    table += "<p> "+response.length+" resultados para: '"+$("#criterio_id").val()+"' <a href='#' onclick='clear_search_products()' class='btn btn-sm btn-dark' id='clear_search_products'>Borrar</a></p>";
-                                    $('#mitabla').html(table);	
-                                }		
-                            }
-                        });
+                // }
+            }
+        });
+            
+        // searchs customer --------------------------------------------------------------
+        $("#customer_search").on('keyup', function (e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                $('#list_search_customers').html("<center><img class='img-sm' src='<?php echo WP_PLUGIN_URL; ?>/fatcomwp/resources/reload.gif'></center>");
+                let criterio = $("#customer_search").val();
+                $.ajax({
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/search.php",
+                    dataType: "json",
+                    data: { "get_customers": criterio },
+                    success: function (response) {
+                        if (response.length == 0) {
+                            $('#list_search_customers').html("<p>Sin Resultados  <a href='#' class='btn btn-sm btn-dark' onclick='customer_create()' type='button'> Crear Nuevo </a> </p>");	
+                        } else {
+                            let table = "";
+                            table += "<table class='table' style='overflow:auto; border-collapse: collapse; table-layout:fixed;'><tbody>";
+                            for(var i=0; i< response.length; i++){
+                                table += "<tr><td><small>"+response[i].billing_postcode+"</small></td><td><small>"+response[i].billing_first_name+"</small></td><td><small>"+response[i].billing_last_name+"</small></td><td><button onclick='customer_add("+response[i].id+")' type='button' class='btn btn-sm btn-dark'><i class='fa fa-save'></i></button></td></tr>";
+                            }	
+                            table += "</tbody></table>";
+                            table += "<p>"+response.length+" Resultados </p>";
+                            $('#list_search_customers').html(table);	
+                        }		
+                    }
+                });
+            }else{
 
-                        
-                    // }
-                }
-            });
-            // introJs().start();
+            }
+        });
     </script>
     <?php
 }

@@ -8,6 +8,7 @@
         // 'author' => '-1',
     );
     $rows = get_posts( $args );
+    // $setting = get_posts( array('post_status' => 'publish', 'post_type' => 'pos_lw_setting', 'orderby' => 'date') );
 ?>
     <div class="container-fluid">
       <div class="row justify-content-center">
@@ -26,7 +27,7 @@
               </tr>
             </thead>
             <tbody>
-              <?php for($i=0; $i < count($rows); $i++) {  $outlet = get_post(get_post_meta($rows[$i]->ID, 'outlet', true)); ?>
+              <?php for($i=0; $i < count($rows); $i++) {  $outlet = get_post(get_post_meta($rows[$i]->ID, 'outlet', true)); if($_GET['box_id'] != $rows[$i]->ID){?>
                 <tr>
                     <td>
                         <?php echo 'ID: '.$rows[$i]->ID; ?>
@@ -41,7 +42,7 @@
                     <td><button onclick="box_change('<?php echo $rows[$i]->ID; ?>')" class="btn btn-sm btn-dark">Cambiar</button></td>
                 </tr>
 
-              <?php } ?>
+              <?php } } ?>
             </tbody>
           </table>
           <!-- <div class="border-top form-group text-center">
