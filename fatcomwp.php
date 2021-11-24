@@ -21,30 +21,28 @@ function lw_create_setting() {
 		'post_status'   => 'publish',
 		'post_type'   => 'pos_lw_setting',
 		'meta_input' => array(
-			'lw_image' => null,
+			'lw_image' => 'myimage.png',
 			'lw_img_extencion' => 'PNG',
-			'lw_ceo' => 'Ing. Percy Alvarez Cruz',
+			'lw_ceo' => 'Ing. Percy Alvarez C.',
 			'lw_direction' => 'Trinidad - Beni',
 			'lw_movil' => '+591 71130523',
 			'lw_city' => 'TRINIDAD',
 			'lw_activity' => 'Ingenieria y Negocios',
 			'lw_name_business' => 'LoginWeb @2021',
 			'lw_nit' => '5619016018',
-			'lw_legend' => 'EL ESTADO ES NUESTRO ENEMIGO',
+			'lw_legend' => 'El Estado es Nuestro Enemigo',
 			'lw_cat_default' => 'Menu',
-			'lw_caja_default' => '272',
-			'lw_extra_id' => null,
+			'lw_caja_default' => '100',
+			'lw_extra_id' => '101',
 			'lw_tour' => 'true',
+			'lw_or' => 'false',
 		)
 	);
-	if (!post_exists('pos_lw_setting')) {
+	// if (!post_exists('pos_lw_setting')) {
 		wp_insert_post( $setting );
-	}
-	
+	// }	
 }
 register_activation_hook(__FILE__, 'lw_create_setting');
-
-
 
 
 // link para setting --------------------------------------------
@@ -89,6 +87,68 @@ function fw_add_menu() {
 		// ); //function
 
 }
+
+//-------------------------OPTIONS RESTAURANT tipo de venta--------------------
+add_filter( 'manage_edit-shop_order_columns', 'custom_shop_order_column', 10 );
+function custom_shop_order_column($columns)
+{
+    $reordered_columns = array();
+    foreach( $columns as $key => $column){
+        $reordered_columns[$key] = $column;
+        if( $key ==  'order_status' ){
+            $reordered_columns['my-column1'] = __( 'Tipo','theme_domain');
+			$reordered_columns['my-column2'] = __( 'Tickes','theme_domain');
+			$reordered_columns['my-column3'] = __( 'Pago por:','theme_domain');
+			$reordered_columns['my-column4'] = __( 'Conta:','theme_domain');
+        }
+    }
+    return $reordered_columns;
+}
+
+add_action( 'manage_shop_order_posts_custom_column' , 'custom_orders_list_column_content', 10, 2 );
+function custom_orders_list_column_content( $column, $post_id )
+{
+    switch ( $column )
+    {
+        case 'my-column1' :
+            $my_var_one = get_post_meta( $post_id, 'lw_or', true );
+            if(!empty($my_var_one))
+                echo $my_var_one;
+            else
+                echo '<small>(<em>no value</em>)</small>';
+            break;
+			case 'my-column2' :
+				$my_var_one1 = get_post_meta( $post_id, 'lw_pos_tickes', true );
+				if(!empty($my_var_one1))
+					echo $my_var_one1;
+				else
+					echo '<small>(<em>no value</em>)</small>';
+				break;
+			case 'my-column3' :
+				$my_var_one2 = get_post_meta( $post_id, '_payment_method_title', true );
+				if(!empty($my_var_one2))
+					echo $my_var_one2;
+				else
+					echo '<small>(<em>no value</em>)</small>';
+				break;
+			case 'my-column4' :
+				$my_var_one1 = get_post_meta( $post_id, 'lw_accounting', true );
+				if(!empty($my_var_one1))
+					echo $my_var_one1;
+				else
+					echo '<small>(<em>no value</em>)</small>';
+				break;
+    }
+}
+
+// add_action('init', 'myplugin_load');
+
+// function myplugin_load(){
+//     wp_enqueue_script( 'jquery' );
+//     wp_enqueue_script( 'jquery-ui-core' );
+//     wp_enqueue_script( 'jquery-ui-dialog' );
+// }
+
 // Cargando views php -----------------------------------------------------
 define('ROOTDIR', plugin_dir_path(__FILE__));
 require_once(ROOTDIR . 'views/pos.php');

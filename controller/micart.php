@@ -58,7 +58,7 @@
             "description" => "", 
             "price" => $_GET["price"],  
             "sku" => "extra", 
-            "image" => "resources/extra.png"
+            "image" => null
         ]);
         echo json_encode(array("message" => "Extra registrado correctamente.."));
        
@@ -70,7 +70,7 @@
             "description" => "", 
             "price" => 0,  
             "sku" => "linea", 
-            "image" => "resources/extra.png"
+            "image" => null
         ]);
         echo json_encode(array("message" => "Linea registrado correctamente.."));
 
@@ -83,7 +83,7 @@
             "description" => $post->post_content, 
             "price" => get_post_meta($post->ID, 'coupon_amount', true) * -1,  
             "sku" => "descuento", 
-            "image" => "resources/descuento.png"
+            "image" => null
         ]);
         echo json_encode(array("message" => "Descuento Aplicado correctamente.."));
     } elseif ($_GET["clear"]){

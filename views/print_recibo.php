@@ -30,7 +30,7 @@
     $higth = 4;
     $size_font = 10;
     $type_font = 'Arial';
-    $higth_qr = 100;
+    $higth_qr = 110;
 
     $pdf = new FPDF('P','mm',array(80,190));
     $pdf->SetMargins(1, 8, 1, 1);
@@ -59,7 +59,7 @@
         $pdf->Cell(10, $higth, 'TOTAL', 0, 1, 'C');
         $pdf->SetFont($type_font, '', $size_font-2);  
 
-        $lc = 0;
+        $lc = 1;
         foreach ( $items as $item ) {
             $extra = $item->get_meta_data();
             $product = $item->get_product();
@@ -82,6 +82,9 @@
                 }
                 $lc++;
             }
+            // $pdf->Cell(0, 0, get_post_meta($_GET["cod_order"], 'lw_line'.$lc, true), 1 , 1, 'C');
+            // $pdf->Cell(0, 0, $lc, 1 , 1, 'C');
+
             if(get_post_meta($_GET["cod_order"], 'lw_line'.$lc, true) == $lc){
                 $pdf->Cell(0, 0, '', 1 , 1, 'C');
                 $higth_qr += 4;

@@ -30,7 +30,7 @@
                                         <?php echo $item['attributes']['name'] ?>
                                         <small># <?php echo $item['attributes']['order'] ?> </small>
                                         <br>
-                                        <a href="#" onclick="remove('<?php echo $item['id'];  ?>')" class="btn btn-light btn-sm"> Quitar</a>
+                                        <a href="#" onclick="remove('<?php echo $item['id'];  ?>')" class="btn btn-dark btn-sm"> Quitar</a>
                                     </td>
                                     <td> 
                                         ------------
