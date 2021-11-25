@@ -58,8 +58,8 @@
         $pdf->Cell(10, $higth, 'PRECIO', 0);
         $pdf->Cell(10, $higth, 'TOTAL', 0, 1, 'C');
         $pdf->SetFont($type_font, '', $size_font-2);  
-
-        $lc = 1;
+        $pdf->Cell(0, 0, '', 1 , 1, 'C');
+        $lc = 0;
         foreach ( $items as $item ) {
             $extra = $item->get_meta_data();
             $product = $item->get_product();
@@ -72,8 +72,6 @@
 
                 }else{
                     $pdf->Cell(40, $higth, $extra[$i]->key, 0);
-                    // $pdf->Cell(40, $higth, $extra[$i]->key.' : '.$extra[$i]->value, 0, 1, 'L');
-                    // $pdf->Cell(10, $higth, $extra[$i]->key.' : '.$extra[$i]->value, 0, 1, 'L');
                     $pdf->Cell(10, $higth, $extra[$i]->value, 0);
                     $miprice = substr($extra[$i]->key, -2);
                     $miprice = str_replace(')', '', $miprice);
@@ -82,10 +80,8 @@
                 }
                 $lc++;
             }
-            // $pdf->Cell(0, 0, get_post_meta($_GET["cod_order"], 'lw_line'.$lc, true), 1 , 1, 'C');
-            // $pdf->Cell(0, 0, $lc, 1 , 1, 'C');
-
-            if(get_post_meta($_GET["cod_order"], 'lw_line'.$lc, true) == $lc){
+            $aux = get_post_meta($_GET["cod_order"], 'lw_line', true); 
+            if($aux.$lc == $lc){
                 $pdf->Cell(0, 0, '', 1 , 1, 'C');
                 $higth_qr += 4;
                 $lc--;

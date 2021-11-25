@@ -56,26 +56,6 @@ function lw_pos() {
                 }
                 build_costumer();
                 get_totals();
-                // $("#dialog").dialog();
-                $.wpMediaUploader({
-
-                    target : '.smartcat-uploader', // The class wrapping the textbox
-                    uploaderTitle : 'Select or upload image', // The title of the media upload popup
-                    uploaderButton : 'Set image', // the text of the button in the media upload popup
-                    multiple : false, // Allow the user to select multiple images
-                    buttonText : 'Upload image', // The text of the upload button
-                    buttonClass : '.smartcat-upload', // the class of the upload button
-                    previewSize : '150px', // The preview image size
-                    modal : false, // is the upload button within a bootstrap modal ?
-                    buttonStyle : { // style the button
-                        color : '#fff',
-                        background : '#3bafda',
-                        fontSize : '16px',                
-                        padding : '10px 15px',                
-                    },
-
-                });
-
             }); 
             // --------------------------  Custumer ------------------------------------
             //--------------------------------------------------------------------------
@@ -318,8 +298,6 @@ function lw_pos() {
                     }
                 });
             }
-
-
 
             // ------------- Orders--------------------------------------------------------
             // --------------------------------------------------------------------------
@@ -629,7 +607,8 @@ function lw_pos() {
                                 <p for="" class="text-center"><u>Extras</u></p>
                                 <?php 
                                     global $wpdb;
-								    $results = $wpdb->get_row('SELECT meta_value FROM wp_postmeta WHERE post_id = 356 AND  meta_key = "_product_addons"');
+                                    $id_extra = get_post_meta($setting[0]->ID, 'lw_extra_id', true);
+								    $results = $wpdb->get_row('SELECT meta_value FROM wp_postmeta WHERE post_id = '.$id_extra.' AND  meta_key = "_product_addons"');
                                     $results = unserialize($results->meta_value);
 								    $k=0;
                                     foreach ( $results  as $j => $fieldoption ) {
@@ -689,15 +668,14 @@ function lw_pos() {
                                         <dd class="text-right  h6"><div id="cant_items"></div></dd>
                                     </dl>
                                     <hr>
-                                    
+                                    <div class="form-group">
+                                            <input class="form-control form-control-sm" type="text" id="cupon_code" placeholder="Ingresa el Cupon" value="">
+                                        </div>
                                     <dl class="">
                                         <small>Notas:</small> 
                                         <dd class="h6"><textarea id="note_customer" class="form-control" name="" rows="3"></textarea></dd>
                                     </dl>
                                 </div>
-                                <!-- <div class="form-group text-center">
-                                    <button class="btn btn-dark btn-sm" id="btn_payment_quick" onclick="pasarela('Efectivo')">  Pago Rapido</button>
-                                </div> -->
                             </div>
                         </article>
 
@@ -718,9 +696,7 @@ function lw_pos() {
                                                 <input class="form-control" type="text" id="id_customer" hidden>
                                                 <div id="list_search_customers"></div>
                                         </div>
-                                        <div class="form-group">
-                                            <input class="form-control form-control-sm" type="text" id="cupon_code" placeholder="Ingresa el Cupon" value="">
-                                        </div>
+                                   
                                     </form>
                                 </div>
                             </div>
@@ -907,6 +883,37 @@ function lw_pos() {
 
             }
         });
+
+        $("#cupon_code").on('keyup', function (e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+
+                $.notify("Iniciando el proceso..", "success");
+                let cupon_code = $("#cupon_code").val();
+                $.ajax({
+                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/coupons.php",
+                    dataType: 'json',
+                    data: {"cupon_code" : cupon_code},
+                    success: function (response) {
+                        
+                        if (response.cupon_id) {
+                            $.ajax({
+                            url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
+                            dataType: 'json',
+                            data: {"descuento" : true, "cupon_id" : response.cupon_id},
+                            success: function (response1) {
+                                $.notify(response1.message, "success");
+                                get_totals();
+                                $("#cupon_code").val("");
+                            }
+                        });
+                        } else {
+                            $.notify("Error en el Cupon", "success");
+                        }
+                    }
+                });
+            }
+        });
+
     </script>
     <?php
 }
