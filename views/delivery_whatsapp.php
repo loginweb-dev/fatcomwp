@@ -1,19 +1,7 @@
 <?php 
     function delivery_whatsapp() {
-
-        // echo $_GET['cod_order'];
         $order = wc_get_order($_GET['cod_order']);
-
-        // print_f($order);
-        // echo $order->get_date_created()->date('Y-m-d H:i:s');
-        // echo get_post_meta( $order->get_id(), 'billing_lat', true );
-        // echo get_post_meta( $order->get_id(), 'billing_long', true );
-
         $blogusers = get_users( array( 'role__in' => array( 'driver' ) ) );
-        // Array of WP_User objects.
-        foreach ( $blogusers as $user ) {
-            // echo '<span>' . esc_html( $user->display_name ) . '</span>';
-        }
 
         ?>
             <title>Whatsapp</title>
@@ -31,7 +19,6 @@
                 }); 
             </script>
 
-
             <div class="container-fluid">
                 <article class="box">
                     <figure class="itemside">
@@ -42,15 +29,13 @@
                         </div>
                         <figcaption class="text-wrap">
                             <h5 class="title">Enviar pedido por Whatsapp al Delivery</h5>
-                            <!-- <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labor </p> -->
+                           
                         </figcaption>
-                    </figure> <!-- iconbox // -->
-                </article> <!-- panel-lg.// -->
+                    </figure>
+                </article> 
                 <div class="row">
                     
                     <div class="col-sm-12">
-                        <!-- <h2>Enviar pedido por Whatsapp al Delivery</h2> -->
-                 
 
                             <div class="box">
                                 <dl>
@@ -77,20 +62,17 @@
                                     <dd>
                                         <?php echo get_post_meta( $order->get_id(), '_billing_address_1', true ); ?>
                                         <br />
-                                        <strong>Coordenadas</strong>
-                                        <br />
                                         <?php echo get_post_meta( $order->get_id(), 'billing_lat', true);  ?>
                                         <br />
                                         <?php echo get_post_meta( $order->get_id(), 'billing_long', true ); ?>
                                     </dd>
                                 </dl>
-                            </div> <!-- box.// -->
+                            </div>
     
                     </div>
                 </div>
 
                 <h2> Delivery's Disponibles</h2>
-
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -101,23 +83,16 @@
                                 </div>
                                 <figcaption class="text-wrap">
                                     <h6 class="title"><a href="#"><?php echo esc_html( $user->display_name ); ?></a></h6>
-                                    <!-- <br /> -->
-                                    <!-- <h6 class="title"><a href="#"><?php echo esc_html( $user->billing_phone ); ?></a></h6> -->
                                     <span class="text-muted"><?php echo esc_html( $user->billing_phone ); ?></span>
-                                    <!-- <a href="#" class="btn btn-primary btn-sm"> Enviar </a> -->
                                     <br />
-                                    <a class="btn btn-dark btn-sm" href="whatsapp://send?text=https://www.google.com/maps/@<?php echo get_post_meta( $order->get_id(), 'billing_lat', true);  ?>,<?php echo get_post_meta( $order->get_id(), 'billing_long', true);  ?>" data-action="share/whatsapp/share">Enviar Whatsapp</a>
-
+                                    <a class="btn btn-dark btn-sm" href="https://api.whatsapp.com/send?phone=591<?php echo esc_html( $user->billing_phone ); ?>&text=https://www.google.com/maps/@<?php echo get_post_meta( $order->get_id(), 'billing_lat', true);  ?>,<?php echo get_post_meta( $order->get_id(), 'billing_long', true);  ?>" data-action="share/whatsapp/share">Enviar Whatsapp</a>
                                 </figcaption>
                             </figure> 
                         <?php } ?>
                     </div>
                 </div>
 
-
             </div>
-
-
         <?php
     }
 ?>
