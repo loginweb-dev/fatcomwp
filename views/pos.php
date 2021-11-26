@@ -481,6 +481,22 @@ function lw_pos() {
                     }
                 });	
             }
+            function re_imprimir(cod_order, type) {
+                if(isMobile.mobilecheck()){
+                    if (type == 'recibo') {
+                        window.location.href = '<?php echo WP_PLUGIN_URL; ?>'+'/fatcomwp/views/print_recibo.php?cod_order='+cod_order;
+                    } else {
+                        window.location.href = '<?php echo WP_PLUGIN_URL; ?>'+'/fatcomwp/views/print_factura.php?cod_order='+cod_order;
+                    }
+                }else{
+                    if (type == 'recibo') {
+                        window.open('<?php echo WP_PLUGIN_URL; ?>'+'/fatcomwp/views/print_recibo.php?cod_order='+cod_order, '_blank', 'location=yes,height=600,width=400,scrollbars=yes,status=yes');				
+                    } else {
+                        window.open('<?php echo WP_PLUGIN_URL; ?>'+'/fatcomwp/views/print_factura.php?cod_order='+cod_order, '_blank', 'location=yes,height=600,width=400,scrollbars=yes,status=yes');				
+                    }
+                }
+            }
+
             // ----------- Boxs ------------------------------------------------
             //-----------------------------------------------------------------
             function box_details(params) {

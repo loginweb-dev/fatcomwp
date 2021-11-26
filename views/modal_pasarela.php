@@ -25,7 +25,7 @@
 					<!-- <div class="row justify-content-md-center"> -->
 						<div class="form-group">
 							<label><u>Efectivo Entregado</u></label>
-							<input id="entregado" onchange="entregado()" type="text" class="form-control" placeholder="<?php echo $_GET["total"] ?>" value="" autofocus>
+							<input id="entregado" onchange="entregado()" type="number" class="form-control" placeholder="<?php echo $_GET["total"] ?>" value="" autofocus>
 						</div> 
 					<!-- </div> -->
 					<!-- <div class="row justify-content-md-center"> -->

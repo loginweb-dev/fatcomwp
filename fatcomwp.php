@@ -86,6 +86,12 @@ function fw_add_menu() {
 		// 	'dosifications_list'
 		// ); //function
 
+		add_submenu_page(null, //parent slug
+			'Delivery Whatsapp', //page title
+			'Delivery Whatsapp', //menu title
+			'manage_options', //capability
+			'delivery-whatsapp', //menu slug
+			'delivery_whatsapp'); //function
 }
 
 //-------------------------OPTIONS RESTAURANT tipo de venta--------------------
@@ -141,18 +147,56 @@ function custom_orders_list_column_content( $column, $post_id )
     }
 }
 
-// add_action('init', 'myplugin_load');
 
-// function myplugin_load(){
-//     wp_enqueue_script( 'jquery' );
-//     wp_enqueue_script( 'jquery-ui-core' );
-//     wp_enqueue_script( 'jquery-ui-dialog' );
-// }
+
+
+
+// -------------  Imppimir Recibo -----------------------------------------------------------
+add_filter( 'woocommerce_admin_order_actions', 'add_custom_order_status_actions_button', 100, 2 );
+function add_custom_order_status_actions_button( $actions, $order ) {
+		$action_slug = 'custom2';
+        $actions[$action_slug] = array(
+            'url'       => WP_PLUGIN_URL.'/fatcomwp/views/print_recibo.php?cod_order='.$order->get_id(),
+            'name'      => __( 'Imprimir TPV', 'woocommerce' ),
+            'action'    => $action_slug,
+		);
+		return $actions;
+
+}
+add_action( 'admin_head', 'add_custom_order_actions_button_css2' );
+function add_custom_order_actions_button_css2() {
+    $action_slug = "custom2";
+    echo '<style>.wc-action-button-'.$action_slug.'::after { font-family: woocommerce !important; content: "\e01d" !important; }</style>';
+}
+
+
+
+add_filter( 'woocommerce_admin_order_actions', 'add_whatsapp', 100, 2 );
+function add_whatsapp( $actions, $order ) {
+		$action_slug = 'custom';
+        $actions[$action_slug] = array(
+            'url'       => admin_url('admin.php?page=delivery-whatsapp.php&cod_order='.$order->get_id()),
+            'name'      => __( 'Enviar Whatsapp', 'woocommerce' ),
+            'action'    => $action_slug,
+        );
+    return $actions;
+}
+add_action( 'admin_head', 'add_custom_order_actions_button_css' );
+function add_custom_order_actions_button_css() {
+    // The key slug defined for your action button
+    $action_slug = "custom";
+    echo '<style>.wc-action-button-'.$action_slug.'::after { font-family: woocommerce !important; content: "\e019" !important; }</style>';
+}
+
+
+
+
 
 // Cargando views php -----------------------------------------------------
 define('ROOTDIR', plugin_dir_path(__FILE__));
 require_once(ROOTDIR . 'views/pos.php');
 require_once(ROOTDIR . 'views/setting.php');
+require_once(ROOTDIR . 'views/delivery_whatsapp.php');
 require_once(ROOTDIR . 'views/dosifications_list.php');
 
 ?>

@@ -46,7 +46,7 @@
                                             <figcaption class="info">
                                                 <a href="#" class="title text-dark"><?php echo $item['attributes']['name'] ?></a>
                                                 <p class="text-muted small">ID: <?php echo $item['attributes']['product_id'] ?> <br> SKU: <?php echo $item['attributes']['sku'] ?></p>
-                                                <p class="text-muted small">Info: <?php echo $item['attributes']['description'] ?></p>
+                                                <!-- <p class="text-muted small">Info: <?php echo $item['attributes']['description'] ?></p> -->
 
                                             </figcaption>
                                         </figure>
