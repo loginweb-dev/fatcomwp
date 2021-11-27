@@ -274,18 +274,32 @@ function lw_pos() {
                     }
                 });
             }
-            function extras(id, title, price){
-                var stock = prompt("Cantidad a Ingresar", 1);
-                $.ajax({
-                    url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
-                    dataType: "json",
-                    data: {"extra": true, "id": id, "title": title, "price": price, "quantity": stock },
-                    success: function (response) {
-                        $.notify(response.message, "success");
-                        get_totals();
-                        
-                    }
-                });
+            function extras(id, title, price, type){
+                if (type == 'checkbox') {
+                    $.ajax({
+                        url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
+                        dataType: "json",
+                        data: {"extra": true, "id": id, "title": title, "price": price, "quantity": 1 },
+                        success: function (response) {
+                            $.notify(response.message, "success");
+                            get_totals();
+                            
+                        }
+                    });  
+                } else if(type == 'input_multiplier'){
+                    var stock = prompt("Cantidad a Ingresar", 1);
+                    $.ajax({
+                        url: "<?php echo WP_PLUGIN_URL; ?>/fatcomwp/controller/micart.php",
+                        dataType: "json",
+                        data: {"extra": true, "id": id, "title": title, "price": price, "quantity": stock },
+                        success: function (response) {
+                            $.notify(response.message, "success");
+                            get_totals();
+                            
+                        }
+                    });  
+                }
+            
             }
             function linea(){
                 $.ajax({
@@ -635,8 +649,8 @@ function lw_pos() {
     
                                                 ?>
                                                     <div class="form-check" id="miextra" disabled>
-                                                        <input id='<?php echo $i+1; ?>' onclick="extras('<?php echo $k+1; ?>', '<?php echo $title; ?>', <?php echo $price; ?>)" class="form-check-input" type="checkbox">
-                                                        <label for="my-input" class="form-check-label"> <?php echo $title; echo ' - '; echo $price; ?> Bs.</label>
+                                                        <input id='<?php echo $i+1; ?>' onclick="extras('<?php echo $k+1; ?>', '<?php echo $title; ?>', <?php echo $price; ?>, '<?php echo $fieldoption['type']; ?>')" class="form-check-input" type="checkbox">
+                                                        <label for="my-input" class="form-check-label"> <?php echo '----'.$title; echo ' - '; echo $price; ?> Bs.</label>
                                                     </div>
                                                 <?php
                                             }
@@ -644,7 +658,7 @@ function lw_pos() {
                                             ?>
                                                 <div class="input-group">
                                                     <label for=""><?php echo $fieldoption['name'].' Bs.'.$fieldoption['price']; ?></small>
-                                                    <button class="btn btn-dark btn-sm" type="button" onclick="extras('<?php echo $k+1; ?>', '<?php echo $fieldoption['name']; ?>', <?php echo $fieldoption['price']; ?>)">Agregar</button>
+                                                    <button class="btn btn-dark btn-sm" type="button" onclick="extras('<?php echo $k+1; ?>', '<?php echo $fieldoption['name']; ?>', <?php echo $fieldoption['price']; ?>, '<?php echo $fieldoption['type']; ?>')">Agregar</button>
                                                 </div>
                                             <?php
                                         }
