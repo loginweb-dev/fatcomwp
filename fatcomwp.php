@@ -199,4 +199,7 @@ require_once(ROOTDIR . 'views/setting.php');
 require_once(ROOTDIR . 'views/delivery_whatsapp.php');
 require_once(ROOTDIR . 'views/dosifications_list.php');
 
+// Cargando Includes -----------------------------------------------------
+require_once(ROOTDIR . 'includes/payments.php');
+
 ?>
