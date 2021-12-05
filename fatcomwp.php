@@ -106,6 +106,13 @@ function fw_add_menu() {
 			'manage_options', //capability
 			'chatbot', //menu slug
 			'chatbot'); //function
+
+		add_submenu_page('terminal-punto-venta', //parent slug
+			'Proformas', //page title
+			'Proformas', //menu title
+			'manage_options', //capability
+			'proformas', //menu slug
+			'proformas'); //function
 }
 
 //-------------------------OPTIONS RESTAURANT tipo de venta--------------------
@@ -204,13 +211,13 @@ function add_custom_order_actions_button_css() {
 
 
 
-add_filter( 'nocache_headers', function() {
-    return array(
-        'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0, some-custom-thing',
-        'Pragma'        => 'no-cache',
-        'Expires'       => gmdate( 'D, d M Y H:i:s \G\M\T', time() )
-    );
-} );
+// add_filter( 'nocache_headers', function() {
+//     return array(
+//         'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0, some-custom-thing',
+//         'Pragma'        => 'no-cache',
+//         'Expires'       => gmdate( 'D, d M Y H:i:s \G\M\T', time() )
+//     );
+// } );
 
 // add_action('init','add_cors_http_header');
 // function add_cors_http_header(){
@@ -226,6 +233,7 @@ require_once(ROOTDIR . 'views/delivery_whatsapp.php');
 require_once(ROOTDIR . 'views/dosifications_list.php');
 require_once(ROOTDIR . 'views/produccion.php');
 require_once(ROOTDIR . 'views/chatbot.php');
+require_once(ROOTDIR . 'views/proformas.php');
 
 // Cargando Includes -----------------------------------------------------
 require_once(ROOTDIR . 'includes/payments.php');

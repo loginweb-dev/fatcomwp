@@ -3,16 +3,13 @@ const fs = require("fs");
 const qrcode = require("qrcode-terminal");
 const { Client } = require("whatsapp-web.js");
 
-//-------------
+
 const SESSION_FILE_PATH = "./session.json";
 
-//-----
 const country_code = '591';
-const number = '71130523';
-// const number = '76880951';
+const number = '76886773';
 const msg = '👋 Hola, el BOT iBy esta listo.';
 
-///-----------
 let sessionData;
 if (fs.existsSync(SESSION_FILE_PATH)) {
     sessionData = require(SESSION_FILE_PATH);
@@ -20,6 +17,10 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 
 const client = new Client({
     session: sessionData,
+    puppeteer: {
+        ignoreDefaultArgs: ['--disable-extensions'],
+        args: ['--no-sandbox']
+    }
 });
 
 //---------------------------------------
@@ -37,7 +38,6 @@ client.on('ready', () => {
     // })
 });
 
-//-----------
 client.on("authenticated", (session) => {
     sessionData = session;
     fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
@@ -78,3 +78,4 @@ client.on('message', async msg => {
 });
 
 client.initialize();
+

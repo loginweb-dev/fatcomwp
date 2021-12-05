@@ -47,6 +47,9 @@
                 var attachment = custom_uploader.state().get('selection').first().toJSON();
                 selector.find( 'img' ).attr( 'src', attachment.url).show();
                 selector.find( 'input' ).val(attachment.url);
+                let sms = selector.find( 'textarea' ).val();
+                sms = sms + "\n------- Multimedia Adjunto -------\n"
+                selector.find( 'textarea' ).val(sms+attachment.url);
                 if( settings.modal ) {
                     $('.modal').css( 'overflowY', 'auto');
                 }

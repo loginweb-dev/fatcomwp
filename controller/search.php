@@ -110,31 +110,6 @@
         // echo json_encode(array('message' => 'Cliente Obtenido Correctamente..', 'id' => $get_user->id, 'billing_first_name' => get_user_meta($get_user->id ,'billing_first_name', true),  $get_user->id, 'billing_first_name' => get_user_meta($get_user->id ,'billing_first_name', true)));
     } else if($_GET["get_customers"]) {
 
-    //     $search_string = $_GET["get_customers"];
-
-    //     $args  = array(
-    //         'search' => "*{$search_string}*",
-    //         'search_columns' => array(
-    //         'user_login',
-    //         'user_nicename',
-    //         'user_email',
-    //         'meta_query' => array(
-    //             'relation' => 'OR',
-    //                 array(
-    //                     'key' => 'billing_first_name',
-    //                     'value' => $search_string,
-    //                     'compare' => 'LIKE'
-    //                 ),
-    //                 array(
-    //                     'key' => 'billing_last_name',
-    //                     'value' => $search_string,
-    //                     'compare' => 'LIKE'
-    //                 )
-    //             ))
-    //         );
-    //    $query = new WP_User_Query($args);
-    //    $users = (array) $query->results;
-
     $search_string = $_GET["get_customers"];
     $json = array();
     $args = array(
@@ -142,7 +117,6 @@
         // 'role__in' => "cliente"
     );
     $users = get_users( $args );
-    
        foreach ( $users as $user ) {
            $usermeta = get_user_meta($user->id);
            array_push($json, array(
@@ -155,10 +129,48 @@
                "billing_phone" => $usermeta['billing_phone'][0],
                "billing_postcode" => $usermeta['billing_postcode'][0]
            ));
-
        }
        echo json_encode($json);
+    }else if($_GET["user_id"]) {
+
+        $id = $_GET["user_id"];
+        $user = get_user_by( 'id', $id );
+        $usermeta = get_user_meta($user->id);
+        $json = array(
+            "id" => $user->id,
+            "user_nicename" => $user->user_nicename,
+            "user_email" => $user->user_email,
+            "user_login" => $user->user_login,
+            "billing_first_name" => $usermeta['billing_first_name'][0],
+            "billing_last_name" => $usermeta['billing_last_name'][0],
+            "billing_phone" => $usermeta['billing_phone'][0],
+            "billing_postcode" => $usermeta['billing_postcode'][0]
+        );
+        echo json_encode($json);
+    }else if($_GET["product_id"]) {
+    
+        $id = $_GET["product_id"];
+        $product = wc_get_product( $id );
+        $json = array(
+            "id" => $product->id,
+            "price" => $product->regular_price,
+            "name" => $product->name,
+            "description" => $product->short_description,
+            "category" => json_encode(get_the_terms($id, 'product_cat')),
+            "link" => get_permalink($id)
+        );
+        echo json_encode($json);
+    }else if($_GET["term_id"]) {
+    
+        $id = $_GET["term_id"];
+        $term = get_term( $id, 'wcdp_payment_plan' );
+        $json = array(
+            "id" => $term->term_id,
+            "title" => $term->name,
+            "deposit_percentage" => get_term_meta($id, 'deposit_percentage', true),
+            "payment_details" => get_term_meta($id, 'payment_details', true)
+        );
+        echo json_encode($json);
     }
     
-
 ?>
