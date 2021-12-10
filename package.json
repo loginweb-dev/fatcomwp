@@ -1,0 +1,26 @@
+{
+  "name": "fatcomwp",
+  "version": "1.0.0",
+  "description": "Pos (Point of Sale) con Facturacion, Plugin para wordpress y woocommerce. <h1 align=\"center\">FATCOMWP - con Facturacion Computarizada</h1>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loginweb-dev/fatcomwp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/loginweb-dev/fatcomwp/issues"
+  },
+  "homepage": "https://github.com/loginweb-dev/fatcomwp#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.15.3"
+  }
+}
